@@ -22,6 +22,8 @@ import sistemarh.utils.ConnectionFactory;
  */
 public class CargoDAO {
 
+    private static final String selectAll = "select cargo.idcargo,cargo.nome,salario.nivel,salario.valor from cargo,salario where cargo.idcargo = salario.idcargo";
+
     public static void add(Cargo cargo) {
         try {
             Connection connection = ConnectionFactory.getConnection();
@@ -50,19 +52,20 @@ public class CargoDAO {
     }
 
     public static List<Cargo> carregarCargos() {
-        String sql = "SELECT * FROM cargo";
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Cargo> list = new ArrayList();
         try {
             connection = ConnectionFactory.getConnection();
-            ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(selectAll);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Cargo cargo = new Cargo();
                 cargo.setNome(rs.getString("nome"));
                 cargo.setId(rs.getInt("idCargo"));
+                cargo.setNivel(rs.getInt("nivel"));
+                cargo.setSalario(rs.getDouble("valor"));
                 list.add(cargo);
             }
             return list;

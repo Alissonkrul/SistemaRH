@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistemarh.entidades.Departamento;
 import sistemarh.utils.TableDepartamentos;
+import sistemarh.utils.TableSalarios;
 
 /**
  *
@@ -58,7 +59,7 @@ public class ManterSalarios extends javax.swing.JFrame {
             }
         });
 
-        tabelaDepartamentos.setModel(new TableDepartamentos()
+        tabelaDepartamentos.setModel(new TableSalarios()
         );
         tabelaDepartamentos.setName(""); // NOI18N
         jScrollPane1.setViewportView(tabelaDepartamentos);
