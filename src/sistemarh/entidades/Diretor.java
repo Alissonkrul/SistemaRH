@@ -14,8 +14,8 @@ import java.util.List;
 public class Diretor extends Funcionario {
     private List<Departamento> departamentosDirigidos;
 
-    public Diretor(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Salario salario, Departamento departamento, int id, List<Sistema>[] sitemas) {
-        super(cpf, senha, nome, sobrenome, rg, telefone, salario, departamento, id, sitemas);
+    public Diretor(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sitemas) {
+        super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
     }
 
    

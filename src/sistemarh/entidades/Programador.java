@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class Programador extends Funcionario{
 
-    public Programador(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Salario salario, Departamento departamento, int id, List<Sistema>[] sitemas) {
-        super(cpf, senha, nome, sobrenome, rg, telefone, salario, departamento, id, sitemas);
+    public Programador(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sitemas) {
+        super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
     }
 
     @Override

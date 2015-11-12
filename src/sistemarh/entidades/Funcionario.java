@@ -15,16 +15,16 @@ public abstract class Funcionario extends Pessoa implements Autenticavel {
 
     private String telefone;
     private String senha;
-    private Salario salario;
+    private Cargo cargo;
     private Departamento departamento;
 
     private int id;
     private List<Sistema> sitemas[];
 
-    public Funcionario(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Salario salario, Departamento departamento, int id, List<Sistema>[] sitemas) {
+    public Funcionario(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sitemas) {
         super(nome, sobrenome, rg, cpf);
         this.senha = senha;
-        this.salario = salario;
+        this.cargo = cargo;
         this.telefone = telefone;
         this.departamento = departamento;
         this.id = id;
@@ -39,12 +39,12 @@ public abstract class Funcionario extends Pessoa implements Autenticavel {
         this.senha = senha;
     }
 
-    public Salario getSalario() {
-        return salario;
+    public Cargo getCargo() {
+        return cargo;
     }
 
-    public void setSalario(Salario salario) {
-        this.salario = salario;
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
     }
 
     public Departamento getDepartamento() {
