@@ -12,10 +12,29 @@ package sistemarh.entidades;
 public class Cargo {
     private int id;
     private String nome;
+    private double salario;
+    private int nivel;
 
-    public Cargo(int idCargo, String nomeCargo) {
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
+    public Cargo(int idCargo, String nomeCargo, String salario) {
         this.id = idCargo;
         this.nome = nomeCargo;
+        this.nome = salario;
     }
 
     public Cargo() {

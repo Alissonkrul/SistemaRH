@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import sistemarh.entidades.Departamento;
 import sistemarh.utils.ConnectionFactory;
+
 /**
  *
  * @author Alisson
@@ -58,7 +59,7 @@ public class DepartamentoDAO {
         }
 
     }
-
+    
     public static void update(Departamento departamento) {
         Connection con = null;
         PreparedStatement statment = null;
@@ -68,7 +69,7 @@ public class DepartamentoDAO {
             statment.setInt(2, departamento.getId());
             statment.setString(1, departamento.getNome());
             statment.executeUpdate();
-
+           
         } catch (SQLException ex) {
             throw new RuntimeException(
                     "Erro ao atualizar um departamento no banco de dados. =" + ex.getMessage()
@@ -90,7 +91,7 @@ public class DepartamentoDAO {
         }
 
     }
-
+    
     public static void delete(Departamento departamento) {
         Connection con = null;
         PreparedStatement statment = null;
@@ -99,11 +100,11 @@ public class DepartamentoDAO {
             statment = con.prepareStatement(deleteDirDeFuncionario, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, departamento.getId());
             statment.executeUpdate();
-
+            
             statment = con.prepareStatement(deleteGerDeFuncionario, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, departamento.getId());
             statment.executeUpdate();
-
+            
             statment = con.prepareStatement(delete, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, departamento.getId());
             statment.executeUpdate();

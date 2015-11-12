@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import sistemarh.entidades.Cargo;
 import sistemarh.entidades.Departamento;
 import sistemarh.entidades.Funcionario;
-import sistemarh.entidades.Salario;
 import sistemarh.utils.ConnectionFactory;
 
 /**
@@ -35,8 +34,8 @@ public class FuncionarioDAO {
             ps.setString(5, funcionario.getRg());
             ps.setString(6, funcionario.getSenha());
             ps.setString(7, funcionario.getSobrenome());
-            ps.setInt(8, funcionario.getSalario().getCargo().getId());
-            ps.setInt(9, funcionario.getSalario().getNivel());
+            ps.setInt(8, funcionario.getCargo().getId());
+            ps.setInt(9, funcionario.getCargo().getNivel());
             Departamento dep = funcionario.getDepartamento();
             ps.setInt(10, dep.getId());
             
