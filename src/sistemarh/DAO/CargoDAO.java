@@ -25,11 +25,13 @@ public class CargoDAO {
     public static void add(Cargo cargo) {
         try {
             Connection connection = ConnectionFactory.getConnection();
-            String sql = "INSERT INTO cargo (idcargo, nome) VALUES (?,?)";
+            String sql = "INSERT INTO cargo (idcargo, nome, salario, nivel) VALUES (?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, cargo.getId());
             ps.setString(2, cargo.getNome());
+            ps.setDouble(3, cargo.getSalario());
+            ps.setInt(4, cargo.getNivel());
 
             ps.executeUpdate();
             cargo.setId(getID(ps));
