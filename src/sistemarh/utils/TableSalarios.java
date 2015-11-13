@@ -63,7 +63,7 @@ public class TableSalarios extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int linha, int coluna) {
-        return coluna == 3;
+        return coluna == 2;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class TableSalarios extends AbstractTableModel {
     @Override
     public void setValueAt(Object novoNome, int linhaIndex, int colunaIndex) {
         Cargo cargo = cargosSalarios.get(linhaIndex);
-        cargo.setNome(novoNome.toString());
+        cargo.updateSalario(novoNome.toString());
         //cargo.update();
         this.refreshTable();
     }

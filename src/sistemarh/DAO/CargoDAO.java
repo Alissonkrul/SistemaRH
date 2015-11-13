@@ -23,32 +23,45 @@ import sistemarh.utils.ConnectionFactory;
 public class CargoDAO {
 
     private static final String selectAll = "select cargo.idcargo,cargo.nome,salario.nivel,salario.valor from cargo,salario where cargo.idcargo = salario.idcargo";
-
-    public static void add(Cargo cargo) {
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            String sql = "INSERT INTO cargo (idcargo, nome, salario, nivel) VALUES (?,?,?,?)";
-            PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            ps.setInt(1, cargo.getId());
-            ps.setString(2, cargo.getNome());
-            ps.setDouble(3, cargo.getSalario());
-            ps.setInt(4, cargo.getNivel());
-
-            ps.executeUpdate();
-            cargo.setId(getID(ps));
-            ps.close();
-            connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(CargoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
+    private static final String update = "UPDATE salario SET valor = ? WHERE idCargo = ? and nivel = ?";
+    
     private static int getID(PreparedStatement stm) throws SQLException {
         ResultSet resultado = stm.getGeneratedKeys();
         resultado.next();
         return resultado.getInt(1);
+    }
+    
+    public static void update(Cargo cargo) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(update, PreparedStatement.RETURN_GENERATED_KEYS);
+            statment.setDouble(1, cargo.getSalario());
+            statment.setInt(2, cargo.getId());
+            statment.setInt(3, cargo.getNivel());
+            statment.executeUpdate();
+           
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao atualizar um cargo no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
     }
 
     public static List<Cargo> carregarCargos() {
