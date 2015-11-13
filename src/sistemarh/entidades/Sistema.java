@@ -23,6 +23,11 @@ public class Sistema {
     public Sistema() {
     }
 
+    @Override
+    public String toString() {
+        return this.nome;
+    }
+
     public int getId() {
         return id;
     }
