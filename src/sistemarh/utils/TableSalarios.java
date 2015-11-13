@@ -22,12 +22,6 @@ public class TableSalarios extends AbstractTableModel {
 
     private List<Cargo> cargosSalarios = new ArrayList();
 
-    public void add(String name) {
-        Cargo noveCargo = new Cargo(name);
-        noveCargo.add();
-        this.refreshTable();
-    }
-
     private String[] colunas = {"Cargo", "Nivel", "Valor"};
 
     public TableSalarios() {
@@ -69,7 +63,7 @@ public class TableSalarios extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int linha, int coluna) {
-        return coluna == 3;
+        return coluna == 2;
     }
 
     @Override
@@ -90,8 +84,8 @@ public class TableSalarios extends AbstractTableModel {
     @Override
     public void setValueAt(Object novoNome, int linhaIndex, int colunaIndex) {
         Cargo cargo = cargosSalarios.get(linhaIndex);
-        cargo.setNome(novoNome.toString());
-        cargo.update();
+        cargo.updateSalario(novoNome.toString());
+        //cargo.update();
         this.refreshTable();
     }
 

@@ -5,6 +5,8 @@
  */
 package sistemarh.entidades;
 
+import sistemarh.DAO.CargoDAO;
+
 /**
  *
  * @author Alisson
@@ -54,6 +56,12 @@ public class Cargo {
 
     public void setNome(String nomeCargo) {
         this.nome = nomeCargo;
+    }
+
+    public void updateSalario(String param) {
+        Double salario = Double.parseDouble(param);
+        this.setSalario(salario);
+        CargoDAO.update(this);
     }
     
 }
