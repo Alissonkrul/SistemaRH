@@ -30,6 +30,10 @@ public abstract class Funcionario extends Pessoa implements Autenticavel {
         this.id = id;
         this.sitemas = sitemas;
     }
+    
+    public Funcionario() {
+        
+    }
 
     public String getSenha() {
         return senha;

@@ -54,4 +54,8 @@ public abstract class Pessoa {
         this.rg = rg;
         this.cpf = cpf;
     }
+    
+    public Pessoa(){
+        
+    }
 }
