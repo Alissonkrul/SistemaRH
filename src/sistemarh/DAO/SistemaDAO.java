@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistemarh.entidades.Sistema;
 import sistemarh.utils.ConnectionFactory;
@@ -26,6 +28,49 @@ public class SistemaDAO {
     private static final String deleteSisDeFuncionario = "DELETE FROM sistema WHERE idSistema = ?";
     private static final String delete = "DELETE FROM sistema WHERE idSistema = ?";
     private static final String update = "UPDATE sistema SET nome=? WHERE idSistema = ?";
+    private static final String select = "SELECT * FROM sistema WHERE idsistema = ?";
+    
+    public static List<Sistema> select(Sistema sistema) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Sistema> list = new ArrayList();
+        
+        try {
+            con = ConnectionFactory.getConnection();
+            ps = con.prepareStatement(select);
+            
+            ps.setInt(1, sistema.getId());
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+            Sistema sistema2 = new Sistema();
+            sistema2.setId(rs.getInt("idsistema"));
+            sistema2.setNome(rs.getString("nome"));
+            list.add(sistema2);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(SistemaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+        return null;
+    }
 
     public static void add(Sistema sistema) {
         Connection con = null;
