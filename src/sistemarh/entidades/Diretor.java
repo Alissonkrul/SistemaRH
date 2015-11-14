@@ -30,7 +30,10 @@ public class Diretor extends Funcionario {
 
     @Override
     public boolean autentica(String nomeSistema, String usuario, String senha) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         if (usuario.equals(this.getCpf()) && senha.equals(getSenha())) {
+             return true;
+         }
+        return false;
     }
     
 }

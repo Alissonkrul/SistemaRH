@@ -27,9 +27,4 @@ public class Gerente extends Funcionario{
     public void setDepartamentoGerenciado(Departamento departamentoGerenciado) {
         this.departamentoGerenciado = departamentoGerenciado;
     }
-
-    @Override
-    public boolean autentica(String nomeSistema, String usuario, String senha) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

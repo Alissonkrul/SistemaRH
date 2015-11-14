@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 package sistemarh.intefaces;
-
-import sistemarh.entidades.Departamento;
-import sistemarh.utils.TableDepartamentos;
-
 /**
  *
  * @author Alisson
@@ -33,6 +29,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btFuncionarios = new javax.swing.JButton();
         btSistemas = new javax.swing.JButton();
         btDepartamentos = new javax.swing.JButton();
+        btSistemas1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,7 +40,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btSistemas.setText("Sistemas");
+        btSistemas.setText("Salarios");
         btSistemas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSistemasActionPerformed(evt);
@@ -57,6 +54,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btSistemas1.setText("Sistemas");
+        btSistemas1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSistemas1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -64,8 +68,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(174, 174, 174)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btSistemas, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btSistemas1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(186, Short.MAX_VALUE))
         );
@@ -74,11 +79,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(btFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(18, 18, 18)
                 .addComponent(btDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addGap(18, 18, 18)
+                .addComponent(btSistemas1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addComponent(btSistemas, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addContainerGap(190, Short.MAX_VALUE))
         );
 
         pack();
@@ -102,6 +109,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         telaManterDepartamentos.setVisible(true);
         
     }//GEN-LAST:event_btDepartamentosActionPerformed
+
+    private void btSistemas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSistemas1ActionPerformed
+        ManterSalarios telaManterSalarios = new ManterSalarios();
+        this.dispose();
+        telaManterSalarios.setVisible(true);
+    }//GEN-LAST:event_btSistemas1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,5 +154,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btDepartamentos;
     private javax.swing.JButton btFuncionarios;
     private javax.swing.JButton btSistemas;
+    private javax.swing.JButton btSistemas1;
     // End of variables declaration//GEN-END:variables
 }
