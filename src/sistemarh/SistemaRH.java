@@ -5,6 +5,8 @@
  */
 package sistemarh;
 
+import sistemarh.intefaces.MenuPrincipal;
+
 /**
  *
  * @author Alisson
@@ -16,6 +18,9 @@ public class SistemaRH {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.setVisible(true);
     }
+    
     
 }
