@@ -11,17 +11,17 @@ import java.util.List;
  *
  * @author Alisson
  */
-public class AuxLimpeza extends Funcionario{
+public class AuxLimpeza extends Funcionario {
 
-    public AuxLimpeza(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sitemas) {
+    public AuxLimpeza(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema> sitemas, int nivel) {
         super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
+        this.setCargo(new Cargo(5, nivel));
+        this.getCargo().carregarCargo();
     }
-
-   
 
     @Override
     public boolean autentica(String nomeSistema, String usuario, String senha) {
         return false;
     }
-    
+
 }

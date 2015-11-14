@@ -21,7 +21,7 @@ public class Funcionario extends Pessoa implements Autenticavel {
     private int id;
     private List<Sistema> sistemas;
 
-    public Funcionario(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sistemas) {
+    public Funcionario(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema> sistemas) {
         super(nome, sobrenome, rg, cpf);
         this.senha = senha;
         this.cargo = cargo;
