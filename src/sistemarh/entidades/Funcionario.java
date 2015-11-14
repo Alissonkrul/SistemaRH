@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Alisson
  */
-public abstract class Funcionario extends Pessoa implements Autenticavel {
+public class Funcionario extends Pessoa implements Autenticavel {
 
     private String telefone;
     private String senha;
@@ -19,16 +19,16 @@ public abstract class Funcionario extends Pessoa implements Autenticavel {
     private Departamento departamento;
 
     private int id;
-    private List<Sistema> sitemas[];
+    private List<Sistema> sistemas;
 
-    public Funcionario(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sitemas) {
+    public Funcionario(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sistemas) {
         super(nome, sobrenome, rg, cpf);
         this.senha = senha;
         this.cargo = cargo;
         this.telefone = telefone;
         this.departamento = departamento;
         this.id = id;
-        this.sitemas = sitemas;
+        this.sistemas = sistemas;
     }
 
     public String getSenha() {
@@ -58,17 +58,25 @@ public abstract class Funcionario extends Pessoa implements Autenticavel {
     public int getId() {
         return id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
-    } 
-
-    public List<Sistema>[] getSitemas() {
-        return sitemas;
     }
 
-    public void setSitemas(List<Sistema>[] sitemas) {
-        this.sitemas = sitemas;
+    public List<Sistema> getSitemas() {
+        return sistemas;
+    }
+
+    private boolean procuraSistema(String nomeSistema) {
+        for (Sistema sistema : sistemas) {
+            if(sistema.getNome().equalsIgnoreCase(nomeSistema))
+                return true;
+        }
+        return false;
+    }
+
+    public void setSitemas(List<Sistema> sistemas) {
+        this.sistemas = sistemas;
     }
 
     public String getTelefone() {
@@ -79,5 +87,12 @@ public abstract class Funcionario extends Pessoa implements Autenticavel {
         this.telefone = telefone;
     }
 
-
+    @Override
+    public boolean autentica(String nomeSistema, String usuario, String senha) {
+        if (usuario.equals(this.getCpf()) && senha.equals(this.senha)) {
+            if(procuraSistema(nomeSistema))
+                return true;
+        }
+        return false;
+    }
 }
