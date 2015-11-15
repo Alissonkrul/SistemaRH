@@ -9,13 +9,13 @@ package sistemarh.entidades;
  *
  * @author Alisson
  */
-
 public abstract class Pessoa {
+
     private String nome;
     private String sobrenome;
     private String rg;
     private String cpf;
-   
+
     public String getNome() {
         return nome;
     }
@@ -48,6 +48,9 @@ public abstract class Pessoa {
         this.cpf = cpf;
     }
 
+    public Pessoa() {
+
+    }
     public Pessoa(String nome, String sobrenome, String rg, String cpf) {
         this.nome = nome;
         this.sobrenome = sobrenome;

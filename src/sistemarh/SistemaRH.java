@@ -5,6 +5,7 @@
  */
 package sistemarh;
 
+import sistemarh.entidades.Funcionario;
 import sistemarh.intefaces.MenuPrincipal;
 
 /**
@@ -20,6 +21,10 @@ public class SistemaRH {
         // TODO code application logic here
         MenuPrincipal menu = new MenuPrincipal();
         menu.setVisible(true);
+        Funcionario f = new Funcionario();
+        f.setId(2);
+        f.carregar();
+        String toString = f.toString();
     }
     
     

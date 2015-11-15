@@ -16,6 +16,9 @@ public class Analista extends Funcionario{
     public Analista(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema> sitemas, int nivel) {
         super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
         this.setCargo(new Cargo(3, nivel));
-        this.getCargo().carregarCargo();
+        this.getCargo().carregar();
     }       
+
+    public Analista() {
+    }
 }

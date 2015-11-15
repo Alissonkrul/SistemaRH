@@ -17,7 +17,11 @@ public class Diretor extends Funcionario {
     public Diretor(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema> sitemas,int nivel) {
         super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
         this.setCargo(new Cargo(1, nivel));
-        this.getCargo().carregarCargo();
+        this.getCargo().carregar();
+    }
+
+    public Diretor() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
    
@@ -34,8 +38,7 @@ public class Diretor extends Funcionario {
     public boolean autentica(String nomeSistema, String usuario, String senha) {
          if (usuario.equals(this.getCpf()) && senha.equals(getSenha())) {
              return true;
-         }
-        return false;
+         }     
+     return false;
     }
-    
 }

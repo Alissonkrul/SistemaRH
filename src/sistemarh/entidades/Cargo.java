@@ -44,7 +44,7 @@ public class Cargo {
         this.nivel = nivel;
     }
     
-    public void carregarCargo(){
+    public void carregar(){
         CargoDAO.carregarCargo(this);
     }
 
@@ -72,5 +72,8 @@ public class Cargo {
         this.setSalario(salario);
         CargoDAO.update(this);
     }
-    
+    @Override
+    public String toString(){
+        return this.getNome();
+    }
 }

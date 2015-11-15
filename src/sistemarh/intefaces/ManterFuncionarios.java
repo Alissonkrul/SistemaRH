@@ -5,6 +5,8 @@
  */
 package sistemarh.intefaces;
 
+import sistemarh.utils.TableFuncionarios;
+
 /**
  *
  * @author Alisson
@@ -83,17 +85,7 @@ public class ManterFuncionarios extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
-            }
-        ));
+        jTable1.setModel(new TableFuncionarios());
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
