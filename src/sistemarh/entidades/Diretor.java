@@ -26,7 +26,6 @@ public class Diretor extends Funcionario {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-
     public void carregarDepartamentos() {
         departamentosDirigidos = DepartamentoDAO.carregarDepartamento(this);
     }
