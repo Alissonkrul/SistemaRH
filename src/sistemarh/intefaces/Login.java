@@ -64,6 +64,7 @@ private List<Sistema> sistemas = new ArrayList();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         login.setText("Login");
+<<<<<<< HEAD
         login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginActionPerformed(evt);
@@ -83,6 +84,12 @@ private List<Sistema> sistemas = new ArrayList();
                 senhaActionPerformed(evt);
             }
         });
+=======
+
+        combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        senha.setText("Senha");
+>>>>>>> a2648f2a00512d12ebedbbb2c86c5f5f6ba44bfd
 
         jLabel1.setText("Sistema:");
 
@@ -90,6 +97,14 @@ private List<Sistema> sistemas = new ArrayList();
         jLabel2.setText("SIGN IN");
 
         ok.setText("Entrar");
+<<<<<<< HEAD
+=======
+        ok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okActionPerformed(evt);
+            }
+        });
+>>>>>>> a2648f2a00512d12ebedbbb2c86c5f5f6ba44bfd
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,7 +147,11 @@ private List<Sistema> sistemas = new ArrayList();
                     .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addComponent(ok)
+<<<<<<< HEAD
                 .addContainerGap(103, Short.MAX_VALUE))
+=======
+                .addContainerGap(21, Short.MAX_VALUE))
+>>>>>>> a2648f2a00512d12ebedbbb2c86c5f5f6ba44bfd
         );
 
         pack();
@@ -149,6 +168,9 @@ private List<Sistema> sistemas = new ArrayList();
     private void senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_senhaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_senhaActionPerformed
+    private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_okActionPerformed
 
     /**
      * @param args the command line arguments

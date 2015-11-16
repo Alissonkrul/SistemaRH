@@ -18,7 +18,15 @@ public class Analista extends Funcionario{
         this.setCargo(new Cargo(3, nivel));
         this.getCargo().carregar();
     }       
+    }    
 
     public Analista() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+     
+    @Override
+    public boolean autentica(String nomeSistema, String usuario, String senha) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

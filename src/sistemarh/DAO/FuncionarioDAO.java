@@ -31,6 +31,76 @@ public class FuncionarioDAO {
 
     private static final String selectAll = "SELECT * FROM FUNCIONARIO";
     private static final String select = "SELECT * FROM FUNCIONARIO WHERE idfuncionario = ?";
+    private static final String procurarLogin = "SELECT * FROM funcionario WHERE nome = ? and senha = ?";
+
+    public static Funcionario procurarLogin(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = ConnectionFactory.getConnection();
+            ps = con.prepareStatement(procurarLogin);
+
+            ps.setString(1, funcionario.getNome());
+            ps.setString(1, funcionario.getSenha());
+            rs = ps.executeQuery();
+
+            String nome = funcionario.getCargo().getNome();
+            Funcionario funcionario2 = null;
+
+            switch (nome) {
+                case "Diretor":
+                    funcionario2 = new Diretor();
+                    funcionario2.setId(rs.getInt("idfuncionario"));
+                    funcionario2.setNome(rs.getString("nome"));
+                    return funcionario2;
+
+                case "Analista":
+                    funcionario2 = new Analista();
+                    funcionario2.setId(rs.getInt("idfuncionario"));
+                    funcionario2.setNome(rs.getString("nome"));
+                    return funcionario2;
+
+                case "Gerente":
+                    funcionario2 = new Gerente();
+                    funcionario2.setId(rs.getInt("idfuncionario"));
+                    funcionario2.setNome(rs.getString("nome"));
+                    return funcionario2;
+
+                case "Programador":
+                    funcionario2 = new Programador();
+                    funcionario2.setId(rs.getInt("idfuncionario"));
+                    funcionario2.setNome(rs.getString("nome"));
+
+                case "Auxiliar de Limpeza":
+                    funcionario2 = new AuxLimpeza();
+                    funcionario2.setId(rs.getInt("idfuncionario"));
+                    funcionario2.setNome(rs.getString("nome"));
+                    return funcionario2;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+        return null;
+    }
 
     public void add(Funcionario funcionario) {
         try {
