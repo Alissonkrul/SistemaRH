@@ -51,10 +51,6 @@ public class Funcionario extends Pessoa implements Autenticavel {
         sistemas = SistemaDAO.carregarSistemas(this);
     }
     
-    public Funcionario() {
-        
-    }
-
     public String getSenha() {
         return senha;
     }
