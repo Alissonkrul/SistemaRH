@@ -35,6 +35,67 @@ public class FuncionarioDAO {
     private static final String add = "INSERT INTO funcionario (idFuncionario, telefone, cpf, nome, rg, senha, sobrenome, idcargo, nivel, iddepartamento) VALUES (?,?,?,?,?,?,?,?,?,?) ";
     private static final String update = "update funcionario SET Telefone = ? ,CPF = ?,Nome = ?,RG = ?,Senha = ?,Sobrenome = ?,idCargo = ?,Nivel = ?,idDepartamento = ? where idfuncionario = ?";
     private static final String procurarLogin = "SELECT * FROM funcionario WHERE cpf = ? and senha = ?";
+    private static final String selectByCpf = "SELECT * FROM funcionario WHERE cpf LIKE ?";
+    
+    public static List<Funcionario> carregaPorCpf(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            con = ConnectionFactory.getConnection();
+            ps = con.prepareStatement(selectByCpf);
+            funcionario.setCpf(funcionario.getCpf()+"%");
+            ps.setString(1, funcionario.getCpf());
+            
+            rs = ps.executeQuery();
+            
+            List<Funcionario> list = new ArrayList();
+            while(rs.next()) {
+                Funcionario funcionario2;
+                funcionario2 = especializaFuncionario(rs.getInt("idCargo"));
+                funcionario2.setId(rs.getInt("idFuncionario"));
+                funcionario2.setTelefone(rs.getString("telefone"));
+                funcionario2.setCpf(rs.getString("cpf"));
+                funcionario2.setNome(rs.getString("nome"));
+                funcionario2.setRg(rs.getString("RG"));
+                funcionario2.setSenha(rs.getString("senha"));
+                funcionario2.setSobrenome(rs.getString("sobrenome"));
+                funcionario2.getCargo().setId(rs.getInt("idcargo"));
+                funcionario2.getCargo().setNivel(rs.getInt("nivel"));
+                funcionario2.getDepartamento().setId(rs.getInt("idDepartamento"));
+
+                funcionario2.getDepartamento().carregar();
+                funcionario2.getCargo().carregar();
+                funcionario2.carregarSistemas();
+                funcionario2.carregarDepartamentos();
+                
+                list.add(funcionario2);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+        return null;
+    }
 
     public static Funcionario procurarLogin(Funcionario funcionario) {
         Connection con = null;
