@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sistemarh.entidades.Analista;
 import sistemarh.entidades.AuxLimpeza;
 import sistemarh.entidades.Cargo;
@@ -33,7 +34,7 @@ public class FuncionarioDAO {
     private static final String select = "SELECT * FROM FUNCIONARIO WHERE idfuncionario = ?";
     private static final String add = "INSERT INTO funcionario (idFuncionario, telefone, cpf, nome, rg, senha, sobrenome, idcargo, nivel, iddepartamento) VALUES (?,?,?,?,?,?,?,?,?,?) ";
     private static final String update = "update funcionario SET Telefone = ? ,CPF = ?,Nome = ?,RG = ?,Senha = ?,Sobrenome = ?,idCargo = ?,Nivel = ?,idDepartamento = ? where idfuncionario = ?";
-    private static final String procurarLogin = "SELECT * FROM funcionario WHERE nome = ? and senha = ?";
+    private static final String procurarLogin = "SELECT * FROM funcionario WHERE cpf = ? and senha = ?";
 
     public static Funcionario procurarLogin(Funcionario funcionario) {
         Connection con = null;
@@ -44,42 +45,30 @@ public class FuncionarioDAO {
             con = ConnectionFactory.getConnection();
             ps = con.prepareStatement(procurarLogin);
 
-            ps.setString(1, funcionario.getNome());
-            ps.setString(1, funcionario.getSenha());
+            ps.setString(1, funcionario.getCpf());
+            ps.setString(2, funcionario.getSenha());
             rs = ps.executeQuery();
 
-            String nome = funcionario.getCargo().getNome();
-            Funcionario funcionario2 = null;
+            if (rs.next()) {
+                Funcionario funcionario2;
+                funcionario2 = especializaFuncionario(rs.getInt("idCargo"));
+                funcionario2.setId(rs.getInt("idFuncionario"));
+                funcionario2.setTelefone(rs.getString("telefone"));
+                funcionario2.setCpf(rs.getString("cpf"));
+                funcionario2.setNome(rs.getString("nome"));
+                funcionario2.setRg(rs.getString("RG"));
+                funcionario2.setSenha(rs.getString("senha"));
+                funcionario2.setSobrenome(rs.getString("sobrenome"));
+                funcionario2.getCargo().setId(rs.getInt("idcargo"));
+                funcionario2.getCargo().setNivel(rs.getInt("nivel"));
+                funcionario2.getDepartamento().setId(rs.getInt("idDepartamento"));
 
-            switch (nome) {
-                case "Diretor":
-                    funcionario2 = new Diretor();
-                    funcionario2.setId(rs.getInt("idfuncionario"));
-                    funcionario2.setNome(rs.getString("nome"));
-                    return funcionario2;
-
-                case "Analista":
-                    funcionario2 = new Analista();
-                    funcionario2.setId(rs.getInt("idfuncionario"));
-                    funcionario2.setNome(rs.getString("nome"));
-                    return funcionario2;
-
-                case "Gerente":
-                    funcionario2 = new Gerente();
-                    funcionario2.setId(rs.getInt("idfuncionario"));
-                    funcionario2.setNome(rs.getString("nome"));
-                    return funcionario2;
-
-                case "Programador":
-                    funcionario2 = new Programador();
-                    funcionario2.setId(rs.getInt("idfuncionario"));
-                    funcionario2.setNome(rs.getString("nome"));
-
-                case "Auxiliar de Limpeza":
-                    funcionario2 = new AuxLimpeza();
-                    funcionario2.setId(rs.getInt("idfuncionario"));
-                    funcionario2.setNome(rs.getString("nome"));
-                    return funcionario2;
+                funcionario2.getDepartamento().carregar();
+                funcionario2.getCargo().carregar();
+                funcionario2.carregarSistemas();
+                funcionario2.carregarDepartamentos();
+                
+                return funcionario2;                
             }
 
         } catch (SQLException ex) {
