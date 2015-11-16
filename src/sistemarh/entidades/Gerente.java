@@ -18,6 +18,10 @@ public class Gerente extends Funcionario{
         super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
     }
 
+    public Gerente() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 
     public Departamento getDepartamentoGerenciado() {

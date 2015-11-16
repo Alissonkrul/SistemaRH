@@ -16,6 +16,10 @@ public class Analista extends Funcionario{
     public Analista(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sitemas) {
         super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
     }    
+
+    public Analista() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
      
     @Override
     public boolean autentica(String nomeSistema, String usuario, String senha) {

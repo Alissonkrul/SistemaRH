@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Alisson
  */
-public abstract class Funcionario extends Pessoa implements Autenticavel {
+public class Funcionario extends Pessoa implements Autenticavel {
 
     private String telefone;
     private String senha;
@@ -29,6 +29,12 @@ public abstract class Funcionario extends Pessoa implements Autenticavel {
         this.departamento = departamento;
         this.id = id;
         this.sitemas = sitemas;
+    }
+    
+    @Override
+    public boolean autentica(String nomeSistema, String usuario, String senha) {
+        
+        return false;
     }
     
     public Funcionario() {

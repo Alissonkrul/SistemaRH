@@ -17,6 +17,10 @@ public class Programador extends Funcionario{
         super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
     }
 
+    public Programador() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @Override
     public boolean autentica(String nomeSistema, String usuario, String senha) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

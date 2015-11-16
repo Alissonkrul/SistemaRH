@@ -17,6 +17,10 @@ public class AuxLimpeza extends Funcionario{
         super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
     }
 
+    public AuxLimpeza() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
    
 
     @Override
