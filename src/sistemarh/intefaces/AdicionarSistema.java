@@ -114,6 +114,7 @@ public class AdicionarSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         Sistema sistema = new Sistema(tfSistemaAdd.getText());
         try{
+            
         sistema.add();
         JOptionPane.showMessageDialog(null, "O sistema foi adicionado com sucesso!");
         ManterSistemas tela = new ManterSistemas();

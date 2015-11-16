@@ -38,6 +38,15 @@ public class Cargo {
         this.nome = nomeCargo;
         this.nome = salario;
     }
+    
+     public Cargo(int idCargo, int nivel) {
+        this.id = idCargo;
+        this.nivel = nivel;
+    }
+    
+    public void carregar(){
+        CargoDAO.carregarCargo(this);
+    }
 
     public Cargo() {
     }
@@ -63,5 +72,8 @@ public class Cargo {
         this.setSalario(salario);
         CargoDAO.update(this);
     }
-    
+    @Override
+    public String toString(){
+        return this.getNome();
+    }
 }

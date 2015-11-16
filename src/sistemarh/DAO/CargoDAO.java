@@ -23,14 +23,15 @@ import sistemarh.utils.ConnectionFactory;
 public class CargoDAO {
 
     private static final String selectAll = "select cargo.idcargo,cargo.nome,salario.nivel,salario.valor from cargo,salario where cargo.idcargo = salario.idcargo";
+    private static final String select = "select c.idcargo,c.nome,s.nivel,s.valor from cargo c,salario s where c.idcargo = s.idcargo and c.idcargo = ? and s.nivel = ?";
     private static final String update = "UPDATE salario SET valor = ? WHERE idCargo = ? and nivel = ?";
-    
+
     private static int getID(PreparedStatement stm) throws SQLException {
         ResultSet resultado = stm.getGeneratedKeys();
         resultado.next();
         return resultado.getInt(1);
     }
-    
+
     public static void update(Cargo cargo) {
         Connection con = null;
         PreparedStatement statment = null;
@@ -41,7 +42,7 @@ public class CargoDAO {
             statment.setInt(2, cargo.getId());
             statment.setInt(3, cargo.getNivel());
             statment.executeUpdate();
-           
+
         } catch (SQLException ex) {
             throw new RuntimeException(
                     "Erro ao atualizar um cargo no banco de dados. =" + ex.getMessage()
@@ -100,6 +101,43 @@ public class CargoDAO {
             } catch (Exception ex) {
                 System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
             };
+        }
+    }
+
+    public static void carregarCargo(Cargo cargo) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = ConnectionFactory.getConnection();
+            ps = connection.prepareStatement(select);
+            ps.setInt(1, cargo.getId());
+            ps.setInt(2, cargo.getNivel());
+            rs = ps.executeQuery();
+            rs.next();
+            cargo.setNome(rs.getString("nome"));
+            cargo.setId(rs.getInt("idCargo"));
+            cargo.setNivel(rs.getInt("nivel"));
+            cargo.setSalario(rs.getDouble("valor"));
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar um cargo. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                connection.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+
         }
     }
 }

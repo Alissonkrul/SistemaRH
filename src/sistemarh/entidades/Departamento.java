@@ -51,4 +51,14 @@ public class Departamento {
     public void delete() {
         DepartamentoDAO.delete(this);
     }
+
+    public void carregar() {
+        DepartamentoDAO.carregarDepartamento(this);
+    }
+    
+    @Override
+    public String toString(){
+        return this.getNome();
+    }
+
 }

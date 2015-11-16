@@ -5,7 +5,10 @@
  */
 package sistemarh.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
+import sistemarh.DAO.FuncionarioDAO;
+import sistemarh.DAO.SistemaDAO;
 
 /**
  *
@@ -21,7 +24,7 @@ public class Funcionario extends Pessoa implements Autenticavel {
     private int id;
     private List<Sistema> sistemas;
 
-    public Funcionario(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sistemas) {
+    public Funcionario(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema> sistemas) {
         super(nome, sobrenome, rg, cpf);
         this.senha = senha;
         this.cargo = cargo;
@@ -29,6 +32,23 @@ public class Funcionario extends Pessoa implements Autenticavel {
         this.departamento = departamento;
         this.id = id;
         this.sistemas = sistemas;
+
+    }
+
+    public Funcionario() {
+        super();
+        this.cargo = new Cargo();
+        this.departamento = new Departamento();
+
+        this.sistemas = new ArrayList();
+    }
+
+    public void carregar() {
+        FuncionarioDAO.carregarFuncionario(this);
+    }
+
+    public void carregarSistemas() {
+        sistemas = SistemaDAO.carregarSistemas(this);
     }
 
     public String getSenha() {
@@ -69,8 +89,9 @@ public class Funcionario extends Pessoa implements Autenticavel {
 
     private boolean procuraSistema(String nomeSistema) {
         for (Sistema sistema : sistemas) {
-            if(sistema.getNome().equalsIgnoreCase(nomeSistema))
+            if (sistema.getNome().equalsIgnoreCase(nomeSistema)) {
                 return true;
+            }
         }
         return false;
     }
@@ -90,9 +111,18 @@ public class Funcionario extends Pessoa implements Autenticavel {
     @Override
     public boolean autentica(String nomeSistema, String usuario, String senha) {
         if (usuario.equals(this.getCpf()) && senha.equals(this.senha)) {
-            if(procuraSistema(nomeSistema))
+            if (procuraSistema(nomeSistema)) {
                 return true;
+            }
         }
         return false;
     }
+
+    public void delete() {
+        throw new UnsupportedOperationException("Not supported yet. Delete func"); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void update() {
+    }
+
 }

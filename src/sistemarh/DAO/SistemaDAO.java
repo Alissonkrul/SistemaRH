@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import sistemarh.entidades.Funcionario;
 import sistemarh.entidades.Sistema;
 import sistemarh.utils.ConnectionFactory;
 
@@ -23,6 +24,7 @@ public class SistemaDAO {
 
     private static final String insert = "INSERT INTO sistema(nome) VALUES(?)";
     private static final String selectAll = "SELECT * FROM sistema";
+    private static final String selectFuncionario = "select s.idSistema,s.nome from sistema s,temacesso ta where ta.idsistema = s.idsistema and ta.idfuncionario =?";
     private static final String deleteSisDeFuncionario = "DELETE FROM sistema WHERE idSistema = ?";
     private static final String delete = "DELETE FROM sistema WHERE idSistema = ?";
     private static final String update = "UPDATE sistema SET nome=? WHERE idSistema = ?";
@@ -58,7 +60,8 @@ public class SistemaDAO {
         }
 
     }
-   public static void update(Sistema sistema) {
+
+    public static void update(Sistema sistema) {
         Connection con = null;
         PreparedStatement statment = null;
         try {
@@ -67,7 +70,7 @@ public class SistemaDAO {
             statment.setInt(2, sistema.getId());
             statment.setString(1, sistema.getNome());
             statment.executeUpdate();
-           
+
         } catch (SQLException ex) {
             throw new RuntimeException(
                     "Erro ao atualizar um sistema no banco de dados. =" + ex.getMessage()
@@ -170,4 +173,41 @@ public class SistemaDAO {
 
     }
 
+    public static List<Sistema> carregarSistemas(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        List<Sistema> list = new ArrayList();
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(selectFuncionario);
+            statment.setInt(1, funcionario.getId());
+            resultSet = statment.executeQuery();
+            while (resultSet.next()) {
+                Sistema sistema = new Sistema();
+                sistema.setNome(resultSet.getString("nome"));
+                sistema.setId(resultSet.getInt("idSistema"));
+                list.add(sistema);
+            }
+            return list;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de sistemas. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+    }
 }

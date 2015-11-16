@@ -12,9 +12,16 @@ import java.util.List;
  * @author Alisson
  */
 public class Programador extends Funcionario{
-
-    public Programador(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema>[] sitemas) {
-        super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
+    
+    public Programador(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema> sistemas, int nivel) {
+        super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sistemas);
+        this.setCargo(new Cargo(4,nivel));
+        this.getCargo().carregar();
     }
+
+    public Programador() {
+    }
+
+    
     
 }

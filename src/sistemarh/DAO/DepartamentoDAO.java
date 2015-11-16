@@ -23,6 +23,7 @@ public class DepartamentoDAO {
 
     private static final String insert = "INSERT INTO departamento(nome) VALUES(?)";
     private static final String selectAll = "SELECT * FROM departamento";
+    private static final String select = "SELECT * FROM departamento where idDepartamento = ?";
     private static final String delete = "DELETE FROM departamento WHERE idDepartamento = ?";
     private static final String deleteDirDeFuncionario = "DELETE FROM dirige WHERE idDepartamento = ?";
     private static final String deleteGerDeFuncionario = "DELETE FROM gerencia WHERE idDepartamento = ?";
@@ -59,7 +60,7 @@ public class DepartamentoDAO {
         }
 
     }
-    
+
     public static void update(Departamento departamento) {
         Connection con = null;
         PreparedStatement statment = null;
@@ -69,7 +70,7 @@ public class DepartamentoDAO {
             statment.setInt(2, departamento.getId());
             statment.setString(1, departamento.getNome());
             statment.executeUpdate();
-           
+
         } catch (SQLException ex) {
             throw new RuntimeException(
                     "Erro ao atualizar um departamento no banco de dados. =" + ex.getMessage()
@@ -91,7 +92,7 @@ public class DepartamentoDAO {
         }
 
     }
-    
+
     public static void delete(Departamento departamento) {
         Connection con = null;
         PreparedStatement statment = null;
@@ -100,11 +101,11 @@ public class DepartamentoDAO {
             statment = con.prepareStatement(deleteDirDeFuncionario, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, departamento.getId());
             statment.executeUpdate();
-            
+
             statment = con.prepareStatement(deleteGerDeFuncionario, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, departamento.getId());
             statment.executeUpdate();
-            
+
             statment = con.prepareStatement(delete, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, departamento.getId());
             statment.executeUpdate();
@@ -153,6 +154,42 @@ public class DepartamentoDAO {
                 list.add(departamento);
             }
             return list;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de departamentos. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+
+    public static void carregarDepartamento(Departamento departamento) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        List<Departamento> list = new ArrayList();
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(select);
+            statment.setInt(1, departamento.getId());
+            resultSet = statment.executeQuery();
+            resultSet.next();
+            departamento.setNome(resultSet.getString("nome"));
+            departamento.setId(resultSet.getInt("idDepartamento"));
+
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de departamentos. Origem=" + ex.getMessage());
         } finally {
