@@ -176,6 +176,7 @@ public class FuncionarioDAO {
                 funcionario.getDepartamento().carregar();
                 funcionario.getCargo().carregar();
                 funcionario.carregarSistemas();
+                funcionario.carregarDepartamentos();
                 list.add(funcionario);
             }
             return list;
