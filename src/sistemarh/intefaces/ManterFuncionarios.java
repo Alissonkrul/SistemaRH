@@ -5,6 +5,9 @@
  */
 package sistemarh.intefaces;
 
+import sistemarh.entidades.Cargo;
+import sistemarh.utils.ComboBoxDepartamento;
+import sistemarh.entidades.Departamento;
 import sistemarh.utils.TableFuncionarios;
 
 /**
@@ -86,6 +89,9 @@ public class ManterFuncionarios extends javax.swing.JFrame {
         });
 
         jTable1.setModel(new TableFuncionarios());
+        jTable1.setDefaultEditor(Departamento.class, new sistemarh.utils.ComboBoxDepartamento());
+        jTable1.setDefaultEditor(Cargo.class, new sistemarh.utils.ComboBoxCargo());
+        jTable1.setDefaultEditor(String.class, new sistemarh.utils.ComboBoxNivel());
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);

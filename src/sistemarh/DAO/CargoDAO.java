@@ -22,6 +22,8 @@ import sistemarh.utils.ConnectionFactory;
  */
 public class CargoDAO {
 
+    private static final String selectNiveis = "select c.idcargo,c.nome,s.nivel,s.valor from cargo c,salario s where c.idcargo = s.idcargo and c.idcargo = ? ";
+    private static final String selectCargos = "select c.idcargo,c.nome,s.nivel,s.valor from cargo c,salario s where c.idcargo = s.idcargo and s.nivel = 1 ";
     private static final String selectAll = "select cargo.idcargo,cargo.nome,salario.nivel,salario.valor from cargo,salario where cargo.idcargo = salario.idcargo";
     private static final String select = "select c.idcargo,c.nome,s.nivel,s.valor from cargo c,salario s where c.idcargo = s.idcargo and c.idcargo = ? and s.nivel = ?";
     private static final String update = "UPDATE salario SET valor = ? WHERE idCargo = ? and nivel = ?";
@@ -65,7 +67,7 @@ public class CargoDAO {
 
     }
 
-    public static List<Cargo> carregarCargos() {
+    public static List<Cargo> carregarCargosNiveis() {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -73,6 +75,85 @@ public class CargoDAO {
         try {
             connection = ConnectionFactory.getConnection();
             ps = connection.prepareStatement(selectAll);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Cargo cargo = new Cargo();
+                cargo.setNome(rs.getString("nome"));
+                cargo.setId(rs.getInt("idCargo"));
+                cargo.setNivel(rs.getInt("nivel"));
+                cargo.setSalario(rs.getDouble("valor"));
+                list.add(cargo);
+            }
+            return list;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de cargo. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                connection.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+    }
+
+    public static List<Cargo> carregarCargos() {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Cargo> list = new ArrayList();
+        try {
+            connection = ConnectionFactory.getConnection();
+            ps = connection.prepareStatement(selectCargos);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Cargo cargo = new Cargo();
+                cargo.setNome(rs.getString("nome"));
+                cargo.setId(rs.getInt("idCargo"));
+                cargo.setNivel(rs.getInt("nivel"));
+                cargo.setSalario(rs.getDouble("valor"));
+                list.add(cargo);
+            }
+            return list;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de cargo. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                connection.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+    }
+
+    public static List<Cargo> carregarNiveis(Cargo cargoAux) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Cargo> list = new ArrayList();
+        try {
+            connection = ConnectionFactory.getConnection();
+            ps = connection.prepareStatement(selectNiveis);
+            ps.setInt(1, cargoAux.getId());
             rs = ps.executeQuery();
             while (rs.next()) {
                 Cargo cargo = new Cargo();

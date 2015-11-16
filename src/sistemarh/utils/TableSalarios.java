@@ -30,7 +30,7 @@ public class TableSalarios extends AbstractTableModel {
     }
 
     public void refreshTable() {
-        cargosSalarios = CargoDAO.carregarCargos();
+        cargosSalarios = CargoDAO.carregarCargosNiveis();
         this.sort();
         fireTableDataChanged();
     }
