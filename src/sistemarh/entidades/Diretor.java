@@ -6,6 +6,7 @@
 package sistemarh.entidades;
 
 import java.util.List;
+import sistemarh.DAO.DepartamentoDAO;
 
 /**
  *
@@ -15,7 +16,7 @@ public class Diretor extends Funcionario {
 
     private List<Departamento> departamentosDirigidos;
 
-    public Diretor(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema> sitemas,int nivel) {
+    public Diretor(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema> sitemas, int nivel) {
         super(cpf, senha, nome, sobrenome, rg, telefone, cargo, departamento, id, sitemas);
         this.setCargo(new Cargo(1, nivel));
         this.getCargo().carregar();
@@ -23,6 +24,11 @@ public class Diretor extends Funcionario {
 
     public Diretor() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    public void carregarDepartamentos() {
+        departamentosDirigidos = DepartamentoDAO.carregarDepartamento(this);
     }
 
     public List<Departamento> getDepartamentosDirigidos() {
@@ -35,9 +41,9 @@ public class Diretor extends Funcionario {
 
     @Override
     public boolean autentica(String nomeSistema, String usuario, String senha) {
-         if (usuario.equals(this.getCpf()) && senha.equals(getSenha())) {
-             return true;
-         }     
-     return false;
+        if (usuario.equals(this.getCpf()) && senha.equals(getSenha())) {
+            return true;
+        }
+        return false;
     }
 }

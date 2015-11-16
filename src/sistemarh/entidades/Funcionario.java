@@ -39,7 +39,6 @@ public class Funcionario extends Pessoa implements Autenticavel {
         super();
         this.cargo = new Cargo();
         this.departamento = new Departamento();
-
         this.sistemas = new ArrayList();
     }
 
@@ -51,6 +50,10 @@ public class Funcionario extends Pessoa implements Autenticavel {
         sistemas = SistemaDAO.carregarSistemas(this);
     }
     
+    public void carregarDepartamentos(){
+        
+    }
+
     public String getSenha() {
         return senha;
     }
