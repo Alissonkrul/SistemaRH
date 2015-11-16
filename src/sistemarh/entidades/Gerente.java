@@ -6,6 +6,7 @@
 package sistemarh.entidades;
 
 import java.util.List;
+import sistemarh.DAO.DepartamentoDAO;
 
 /**
  *
@@ -27,7 +28,13 @@ public class Gerente extends Funcionario{
     public Departamento getDepartamentoGerenciado() {
         return departamentoGerenciado;
     }
-
+    
+    public void carregarDepartamentos(){
+        List<Departamento> list = DepartamentoDAO.carregarDepartamento(this);
+        if(!list.isEmpty())
+        departamentoGerenciado = list.get(0);
+    }
+    
     public void setDepartamentoGerenciado(Departamento departamentoGerenciado) {
         this.departamentoGerenciado = departamentoGerenciado;
     }
