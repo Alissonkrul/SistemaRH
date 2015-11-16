@@ -12,6 +12,7 @@ import java.util.List;
  * @author Alisson
  */
 public class Diretor extends Funcionario {
+
     private List<Departamento> departamentosDirigidos;
 
     public Diretor(String cpf, String senha, String nome, String sobrenome, String rg, String telefone, Cargo cargo, Departamento departamento, int id, List<Sistema> sitemas,int nivel) {
@@ -23,8 +24,6 @@ public class Diretor extends Funcionario {
     public Diretor() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-   
 
     public List<Departamento> getDepartamentosDirigidos() {
         return departamentosDirigidos;

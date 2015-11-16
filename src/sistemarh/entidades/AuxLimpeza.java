@@ -20,8 +20,9 @@ public class AuxLimpeza extends Funcionario {
     }
 
     public AuxLimpeza() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+   
     @Override
     public boolean autentica(String nomeSistema, String usuario, String senha) {
         return false;
