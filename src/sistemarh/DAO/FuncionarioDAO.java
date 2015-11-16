@@ -31,23 +31,24 @@ public class FuncionarioDAO {
 
     private static final String selectAll = "SELECT * FROM FUNCIONARIO";
     private static final String select = "SELECT * FROM FUNCIONARIO WHERE idfuncionario = ?";
+    private static final String add = "INSERT INTO funcionario (idFuncionario, telefone, cpf, nome, rg, senha, sobrenome, idcargo, nivel, iddepartamento) VALUES (?,?,?,?,?,?,?,?,?,?) ";
+    private static final String update = "update funcionario SET Telefone = ? ,CPF = ?,Nome = ?,RG = ?,Senha = ?,Sobrenome = ?,idCargo = ?,Nivel = ?,idDepartamento = ? where idfuncionario = ?";
 
+    //TODO FIXME
     public void add(Funcionario funcionario) {
         try {
             Connection connection = ConnectionFactory.getConnection();
-            String sql = "INSERT INTO funcionario (idFuncionario, telefone, cpf, nome, rg, senha, sobrenome, idcargo, nivel, iddepartamento) VALUES (?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, funcionario.getId());
-            ps.setString(2, funcionario.getTelefone());
-            ps.setString(3, funcionario.getCpf());
-            ps.setString(4, funcionario.getNome());
-            ps.setString(5, funcionario.getRg());
-            ps.setString(6, funcionario.getSenha());
-            ps.setString(7, funcionario.getSobrenome());
-            ps.setInt(8, funcionario.getCargo().getId());
-            ps.setInt(9, funcionario.getCargo().getNivel());
-            Departamento dep = funcionario.getDepartamento();
-            ps.setInt(10, dep.getId());
+            PreparedStatement ps = connection.prepareStatement(add);
+            ps.setInt(10, funcionario.getId());
+            ps.setString(1, funcionario.getTelefone());
+            ps.setString(2, funcionario.getCpf());
+            ps.setString(3, funcionario.getNome());
+            ps.setString(4, funcionario.getRg());
+            ps.setString(5, funcionario.getSenha());
+            ps.setString(6, funcionario.getSobrenome());
+            ps.setInt(7, funcionario.getCargo().getId());
+            ps.setInt(8, funcionario.getCargo().getNivel());
+            ps.setInt(9, funcionario.getDepartamento().getId());
 
             ps.executeUpdate();
             funcionario.setId(getID(ps));
@@ -55,6 +56,45 @@ public class FuncionarioDAO {
             connection.close();
         } catch (SQLException ex) {
             Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void update(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(update, PreparedStatement.RETURN_GENERATED_KEYS);
+            statment.setInt(10, funcionario.getId());
+            statment.setString(1, funcionario.getTelefone());
+            statment.setString(2, funcionario.getCpf());
+            statment.setString(3, funcionario.getNome());
+            statment.setString(4, funcionario.getRg());
+            statment.setString(5, funcionario.getSenha());
+            statment.setString(6, funcionario.getSobrenome());
+            statment.setInt(7, funcionario.getCargo().getId());
+            statment.setInt(8, funcionario.getCargo().getNivel());
+            statment.setInt(9, funcionario.getDepartamento().getId());
+            statment.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao atualizar um departamento no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
         }
     }
 
@@ -132,7 +172,7 @@ public class FuncionarioDAO {
                 funcionario.getCargo().setId(resultSet.getInt("idcargo"));
                 funcionario.getCargo().setNivel(resultSet.getInt("nivel"));
                 funcionario.getDepartamento().setId(resultSet.getInt("idDepartamento"));
-                
+
                 funcionario.getDepartamento().carregar();
                 funcionario.getCargo().carregar();
                 funcionario.carregarSistemas();
@@ -176,7 +216,9 @@ public class FuncionarioDAO {
 
         }
         return new Funcionario();
-    };
+    }
+
+    ;
 
     private static int getID(PreparedStatement stm) throws SQLException {
         ResultSet resultado = stm.getGeneratedKeys();

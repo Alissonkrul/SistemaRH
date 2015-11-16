@@ -61,6 +61,18 @@ public class TableFuncionarios extends AbstractTableModel {
     public int getColumnCount() {
         return colunas.length;
     }
+     @Override
+    public Class<?> getColumnClass(int col) {
+       switch (col) {
+            case 5:
+                return Departamento.class;
+            case 6:
+                return Cargo.class;
+            case 7:
+                return String.class;
+       }
+        return super.getColumnClass(col);
+    }
 
     @Override
     public boolean isCellEditable(int linha, int coluna) {
@@ -111,10 +123,10 @@ public class TableFuncionarios extends AbstractTableModel {
                 fun.setTelefone(novoObj.toString());
                 break;
             case 5:
-                //fun.setDepartamento((Departamento) novoObj);
+                fun.setDepartamento((Departamento) novoObj);
                 break;
             case 6:
-                //fun.setCargo((Cargo) novoObj);
+                fun.setCargo((Cargo) novoObj);
                 break;
             case 7:
                 fun.getCargo().setNivel((int) novoObj);
