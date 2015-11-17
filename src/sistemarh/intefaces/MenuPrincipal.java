@@ -234,16 +234,20 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void btSistemas2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSistemas2ActionPerformed
 
+
         ManterSalarios manterSalarios = new ManterSalarios();
         this.dispose();
         manterSalarios.setVisible(true);
+
     }//GEN-LAST:event_btSistemas2ActionPerformed
                                           
 
     private void btSistemas3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSistemas3ActionPerformed
+
         TelaLogin telaLogin = new TelaLogin();
         this.dispose();
         telaLogin.setVisible(true);
+
     }//GEN-LAST:event_btSistemas3ActionPerformed
 
     private void btSistemas4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSistemas4ActionPerformed

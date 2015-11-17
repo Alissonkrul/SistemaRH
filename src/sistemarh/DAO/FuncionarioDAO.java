@@ -41,10 +41,13 @@ public class FuncionarioDAO {
     private static final String selectByCpf = "SELECT * FROM funcionario WHERE cpf LIKE ?";
     private static final String addTemAcesso = "INSERT temacesso(idfuncionario,idsistema) values(?,?) ";
     private static final String deleteFuncionarioDeSis = "DELETE FROM temAcesso WHERE idFuncionario = ?";
+
     private static final String selectByRg = "SELECT * FROM funcionario WHERE rg LIKE ?";
     private static final String selectByName = "SELECT * FROM funcionario WHERE nome LIKE ?";
     private static final String selectByLastName = "SELECT * FROM funcionario WHERE sobrenome LIKE ?";
     private static final String selectByCargo = "SELECT * FROM funcionario WHERE idcargo = ?";
+ 
+    
     
     public static List<Funcionario> carregaPorCargo(Funcionario funcionario) {
         Connection con = null;
@@ -238,8 +241,6 @@ public class FuncionarioDAO {
         return null;
     }
 
-
-   
     public static List<Funcionario> carregaPorCpf(Funcionario funcionario) {
         Connection con = null;
         PreparedStatement ps = null;
