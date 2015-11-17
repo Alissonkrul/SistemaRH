@@ -29,6 +29,10 @@ public class TableDepartamentos extends AbstractTableModel {
     }
 
    private String[] colunas = {"Nome"};
+   
+   public Departamento getDepartamento(int linha){
+       return departamentos.get(linha);
+   }
 
     public TableDepartamentos() {
         departamentos = new ArrayList<>();
