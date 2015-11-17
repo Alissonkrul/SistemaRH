@@ -8,6 +8,7 @@ package sistemarh.intefaces;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import sistemarh.DAO.DepartamentoDAO;
 import sistemarh.entidades.Departamento;
 import sistemarh.utils.TableDepartamentos;
 
@@ -26,7 +27,7 @@ public class ManterDepartamentos extends javax.swing.JFrame {
      * Creates new form manterFuncionarios
      */
     public ManterDepartamentos() {
-      
+
         initComponents();
     }
 
@@ -119,7 +120,7 @@ public class ManterDepartamentos extends javax.swing.JFrame {
     private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
         AdicionarDepartamento tela = new AdicionarDepartamento();
         tela.setVisible(true);
-        
+
         this.dispose();
     }//GEN-LAST:event_btAdicionarActionPerformed
 
@@ -130,16 +131,22 @@ public class ManterDepartamentos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
 
-   
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
         try {
             // TODO add your handling code here:
-            int confirm  = JOptionPane.showConfirmDialog(null, "Está certo que deseja deletar este(s) Departamento(s)?");
-            if(confirm == 0)
-            {
-                ((TableDepartamentos) tabelaDepartamentos.getModel()).delete(tabelaDepartamentos.getSelectedRows());
-                JOptionPane.showMessageDialog(null, "Departamento(s) removidos!");
+            int confirm = JOptionPane.showConfirmDialog(null, "Está certo que deseja deletar este(s) Departamento(s)?");
+            if (confirm == 0) {
+                int linha = tabelaDepartamentos.getSelectedRow();
+                Departamento dep = ((TableDepartamentos) tabelaDepartamentos.getModel()).getDepartamento(linha);
+                System.out.println(dep.getId());
+                if (!DepartamentoDAO.funcionario(dep)) {
+                    ((TableDepartamentos) tabelaDepartamentos.getModel()).delete(tabelaDepartamentos.getSelectedRows());
+                    JOptionPane.showMessageDialog(null, "Departamento(s) removidos!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Este departamento contém funcionarios cadastrados."
+                            + "Mude os funcionarios cadastrados para remove-lo.");
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(ManterDepartamentos.class.getName()).log(Level.SEVERE, null, ex);

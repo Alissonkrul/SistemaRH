@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistemarh.entidades.Departamento;
 import sistemarh.entidades.Funcionario;
@@ -31,6 +33,48 @@ public class DepartamentoDAO {
     private static final String selectGerDeFuncionario = "SELECT d.idDepartamento, d.nome FROM gerencia tb, departamento d WHERE tb.idDepartamento = d.idDepartamento and tb.idfuncionario = ?";
     private static final String selectDirDeFuncionario = "SELECT d.idDepartamento, d.nome FROM dirige tb, departamento d WHERE tb.idDepartamento = d.idDepartamento and tb.idfuncionario = ?";
     private static final String update = "UPDATE departamento SET nome=? WHERE idDepartamento = ?";
+    private static final String funcionario = "SELECT * FROM funcionario WHERE idDepartamento = ?";
+    
+    public static boolean funcionario(Departamento departamento) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            con = ConnectionFactory.getConnection();
+            ps = con.prepareStatement(funcionario);
+            
+            ps.setInt(1, departamento.getId());
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                if(rs.getString("Nome").equalsIgnoreCase("")) {
+                    return false;
+                }
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartamentoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+        return false;
+    }
 
     public static void add(Departamento departamento) {
         Connection con = null;
