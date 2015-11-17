@@ -30,6 +30,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btSistemas = new javax.swing.JButton();
         btDepartamentos = new javax.swing.JButton();
         btSistemas1 = new javax.swing.JButton();
+        btSistemas2 = new javax.swing.JButton();
+        btSistemas3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,10 +56,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btSistemas1.setText("Salários");
+        btSistemas1.setText("Relatório");
         btSistemas1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSistemas1ActionPerformed(evt);
+            }
+        });
+
+        btSistemas2.setText("Salários");
+        btSistemas2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSistemas2ActionPerformed(evt);
+            }
+        });
+
+        btSistemas3.setText("Realizar Login");
+        btSistemas3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSistemas3ActionPerformed(evt);
             }
         });
 
@@ -68,6 +84,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(174, 174, 174)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btSistemas3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btSistemas2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btSistemas1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btSistemas, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btDepartamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -84,8 +102,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btSistemas, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(btSistemas2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btSistemas3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btSistemas1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(199, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         pack();
@@ -111,10 +133,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btDepartamentosActionPerformed
 
     private void btSistemas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSistemas1ActionPerformed
-        ManterSalarios telaManterSalarios = new ManterSalarios();
+        TelaRelatorio telarelatorio = new TelaRelatorio();
         this.dispose();
-        telaManterSalarios.setVisible(true);
+        telarelatorio.setVisible(true);
     }//GEN-LAST:event_btSistemas1ActionPerformed
+
+    private void btSistemas2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSistemas2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btSistemas2ActionPerformed
+
+    private void btSistemas3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSistemas3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btSistemas3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -155,5 +185,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btFuncionarios;
     private javax.swing.JButton btSistemas;
     private javax.swing.JButton btSistemas1;
+    private javax.swing.JButton btSistemas2;
+    private javax.swing.JButton btSistemas3;
     // End of variables declaration//GEN-END:variables
 }

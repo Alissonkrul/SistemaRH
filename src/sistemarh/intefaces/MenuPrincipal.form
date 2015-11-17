@@ -26,6 +26,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="btSistemas3" min="-2" pref="280" max="-2" attributes="0"/>
+                  <Component id="btSistemas2" min="-2" pref="280" max="-2" attributes="0"/>
                   <Component id="btSistemas1" min="-2" pref="280" max="-2" attributes="0"/>
                   <Component id="btSistemas" min="-2" pref="280" max="-2" attributes="0"/>
                   <Component id="btDepartamentos" min="-2" pref="280" max="-2" attributes="0"/>
@@ -45,8 +47,12 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btSistemas" min="-2" pref="38" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btSistemas2" min="-2" pref="38" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btSistemas3" min="-2" pref="38" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btSistemas1" min="-2" pref="38" max="-2" attributes="0"/>
-              <EmptySpace pref="199" max="32767" attributes="0"/>
+              <EmptySpace pref="87" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -78,10 +84,26 @@
     </Component>
     <Component class="javax.swing.JButton" name="btSistemas1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Sal&#xe1;rios"/>
+        <Property name="text" type="java.lang.String" value="Relat&#xf3;rio"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btSistemas1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btSistemas2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sal&#xe1;rios"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btSistemas2ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btSistemas3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Realizar Login"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btSistemas3ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
