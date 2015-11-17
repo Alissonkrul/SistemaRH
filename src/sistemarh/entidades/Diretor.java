@@ -7,6 +7,7 @@ package sistemarh.entidades;
 
 import java.util.List;
 import sistemarh.DAO.DepartamentoDAO;
+import sistemarh.DAO.FuncionarioDAO;
 
 /**
  *
@@ -23,7 +24,6 @@ public class Diretor extends Funcionario {
     }
 
     public Diretor() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void carregarDepartamentos() {
@@ -44,5 +44,10 @@ public class Diretor extends Funcionario {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public void add() {
+        FuncionarioDAO.add(this);
     }
 }

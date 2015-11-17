@@ -32,7 +32,9 @@ public class FuncionarioDAO {
 
     private static final String selectAll = "SELECT * FROM FUNCIONARIO";
     private static final String select = "SELECT * FROM FUNCIONARIO WHERE idfuncionario = ?";
-    private static final String add = "INSERT INTO funcionario (idFuncionario, telefone, cpf, nome, rg, senha, sobrenome, idcargo, nivel, iddepartamento) VALUES (?,?,?,?,?,?,?,?,?,?) ";
+    private static final String add = "INSERT INTO funcionario ( telefone, cpf, nome, rg, senha, sobrenome, idcargo, nivel, iddepartamento) VALUES (?,?,?,?,?,?,?,?,?) ";
+    private static final String addGerecia = "INSERT INTO gerencia ( idFuncionario, iddepartamento) VALUES (?,?) ";
+    private static final String addDirige = "INSERT INTO dirige ( idFuncionario, iddepartamento) VALUES (?,?) ";
     private static final String update = "update funcionario SET Telefone = ? ,CPF = ?,Nome = ?,RG = ?,Senha = ?,Sobrenome = ?,idCargo = ?,Nivel = ?,idDepartamento = ? where idfuncionario = ?";
     private static final String procurarLogin = "SELECT * FROM funcionario WHERE cpf = ? and senha = ?";
     private static final String selectByCpf = "SELECT * FROM funcionario WHERE cpf LIKE ?";
@@ -155,11 +157,14 @@ public class FuncionarioDAO {
     }
 
     //TODO FIXME
-    public void add(Funcionario funcionario) {
+    public static void add(Funcionario funcionario) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
         try {
-            Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement ps = connection.prepareStatement(add);
-            ps.setInt(10, funcionario.getId());
+            connection = ConnectionFactory.getConnection();
+            ps = connection.prepareStatement(add, PreparedStatement.RETURN_GENERATED_KEYS);
+
             ps.setString(1, funcionario.getTelefone());
             ps.setString(2, funcionario.getCpf());
             ps.setString(3, funcionario.getNome());
@@ -172,11 +177,26 @@ public class FuncionarioDAO {
 
             ps.executeUpdate();
             funcionario.setId(getID(ps));
-            ps.close();
-            connection.close();
         } catch (SQLException ex) {
-            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(
+                    "Erro ao inserir um Funcinario no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                connection.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
         }
+
     }
 
     public static void update(Funcionario funcionario) {
@@ -248,7 +268,7 @@ public class FuncionarioDAO {
             funcionario.carregarSistemas();
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de Funcionarios. Origem=" + ex.getMessage());
+            throw new RuntimeException("Erro ao consultar um Funcionarios. Origem=" + ex.getMessage());
         } finally {
             try {
                 resultSet.close();
@@ -347,4 +367,70 @@ public class FuncionarioDAO {
         return resultado.getInt(1);
     }
 
+    public static void add(Gerente gerente) {
+        FuncionarioDAO.add((Funcionario)gerente);
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(addGerecia);
+            statment.setInt(1, gerente.getId());
+            statment.setInt(2, gerente.getDepartamentoGerenciado().getId());
+            statment.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao inserir uma Associação de Gerente no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+
+    public static void add(Diretor diretor) {
+        FuncionarioDAO.add((Funcionario)diretor);
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            for (Departamento dep : diretor.getDepartamentosDirigidos()) {
+                statment = con.prepareStatement(addDirige);
+                statment.setInt(1, diretor.getId());
+                statment.setInt(2, dep.getId());
+                statment.executeUpdate();
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao inserir uma Associação de Gerente no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
 }

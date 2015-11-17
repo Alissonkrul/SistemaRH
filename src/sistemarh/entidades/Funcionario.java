@@ -127,6 +127,10 @@ public class Funcionario extends Pessoa implements Autenticavel {
 
     public void update() {
         FuncionarioDAO.update(this);
+       
     }
 
+     public void add() {
+        FuncionarioDAO.add(this);
+    }
 }

@@ -7,6 +7,7 @@ package sistemarh.entidades;
 
 import java.util.List;
 import sistemarh.DAO.DepartamentoDAO;
+import sistemarh.DAO.FuncionarioDAO;
 
 /**
  *
@@ -22,7 +23,6 @@ public class Gerente extends Funcionario{
     }
 
     public Gerente() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Departamento getDepartamentoGerenciado() {
@@ -38,4 +38,10 @@ public class Gerente extends Funcionario{
     public void setDepartamentoGerenciado(Departamento departamentoGerenciado) {
         this.departamentoGerenciado = departamentoGerenciado;
     }
+   
+    @Override
+     public void add() {
+        FuncionarioDAO.add(this);
+    }
+    
 }
