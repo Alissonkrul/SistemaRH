@@ -12,6 +12,7 @@ import sistemarh.DAO.FuncionarioDAO;
 import sistemarh.DAO.SistemaDAO;
 import sistemarh.entidades.Funcionario;
 import sistemarh.entidades.Sistema;
+import sistemarh.utils.Validação;
 
 /**
  *
@@ -143,21 +144,24 @@ public class TelaLogin extends javax.swing.JFrame {
         Sistema sistema = (Sistema) combo.getSelectedItem();
         Funcionario funcionario = new Funcionario();
         String cpf1 = cpf.getText();
-        cpf1 = cpf1.replace(".", "");
-        cpf1 = cpf1.replace("-", "");
+        cpf1 = cpf1.replaceAll("[.|-]", "");
         funcionario.setCpf(cpf1);
         String senha1 = String.valueOf(senha.getPassword());
         funcionario.setSenha(senha1);
         System.out.println(cpf1);
         funcionario = FuncionarioDAO.procurarLogin(funcionario);
         try {
-            if (funcionario.autentica(sistema.getNome(), cpf1, senha1)) {
-                JOptionPane.showMessageDialog(null, "Você tem acesso a este sistema!");
+            if (Validação.validarCpf(cpf1)) {
+                if (funcionario.autentica(sistema.getNome(), cpf1, senha1)) {
+                    JOptionPane.showMessageDialog(null, "Você tem acesso a este sistema!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Você não tem acesso a este sistema!");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Você não tem acesso a este sistema!");
+                JOptionPane.showMessageDialog(null, "CPF inválido");
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Usuário não encontrado.");
+            JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos.");
         }
     }//GEN-LAST:event_okActionPerformed
 

@@ -12,6 +12,7 @@ import sistemarh.DAO.FuncionarioDAO;
 import sistemarh.entidades.Cargo;
 import sistemarh.entidades.Departamento;
 import sistemarh.entidades.Funcionario;
+import sistemarh.utils.Validação;
 
 /**
  *
@@ -297,24 +298,26 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         try {
-            if (validation()) {
-                newFuncionario.setNome(textNome.getText());
-                newFuncionario.setSobrenome(textSobrenome.getText());
-                newFuncionario.setRg(textRg.getText());
-                newFuncionario.setCpf(textCpf.getText().replace(".","").replace("-", ""));
-                newFuncionario.setTelefone(textTelefone.getText());
-                newFuncionario.setSenha(String.valueOf(textSenha.getPassword()));
-                newFuncionario.setCargo((Cargo) jComboBox1.getSelectedItem());
-                newFuncionario.getCargo().setNivel((int) jComboBox3.getSelectedItem());
-                newFuncionario.setDepartamento((Departamento) jComboBox2.getSelectedItem());
-                newFuncionario.add();
-                JOptionPane.showMessageDialog(null, "O funcionario foi Cadastrado com sucesso!");
-                this.dispose();
-                ManterFuncionarios tela = new ManterFuncionarios();
-                tela.setVisible(true);
+            if (Validação.validarCpf(textCpf.getText())) {
+                if (validation()) {
+                    newFuncionario.setNome(textNome.getText());
+                    newFuncionario.setSobrenome(textSobrenome.getText());
+                    newFuncionario.setRg(textRg.getText());
+                    newFuncionario.setCpf(textCpf.getText().replaceAll("[.|-]", ""));
+                    newFuncionario.setTelefone(textTelefone.getText());
+                    newFuncionario.setSenha(String.valueOf(textSenha.getPassword()));
+                    newFuncionario.setCargo((Cargo) jComboBox1.getSelectedItem());
+                    newFuncionario.getCargo().setNivel((int) jComboBox3.getSelectedItem());
+                    newFuncionario.setDepartamento((Departamento) jComboBox2.getSelectedItem());
+                    newFuncionario.add();
+                    JOptionPane.showMessageDialog(null, "O funcionario foi Cadastrado com sucesso!");
+                    this.dispose();
+                    ManterFuncionarios tela = new ManterFuncionarios();
+                    tela.setVisible(true);
+                }
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Não foi possivel Adicionar o Funcionario /n"+ ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Não foi possivel Adicionar o Funcionario /n" + ex.getMessage());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
