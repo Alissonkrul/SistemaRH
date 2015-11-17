@@ -64,18 +64,18 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
         textRg = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        textSenha = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        textTelefone = new javax.swing.JTextField();
-        textCpf = new javax.swing.JTextField();
         jComboBox2 = new javax.swing.JComboBox();
         jComboBox1 = new javax.swing.JComboBox();
         jButton3 = new javax.swing.JButton();
         jComboBox3 = new javax.swing.JComboBox();
+        textCpf = new javax.swing.JFormattedTextField();
+        textTelefone = new javax.swing.JFormattedTextField();
+        textSenha = new javax.swing.JPasswordField();
 
         mainLabel.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 36)); // NOI18N
         mainLabel.setText("Departamentos");
@@ -149,6 +149,23 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
             }
         });
 
+        try {
+            textCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            textTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        textTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textTelefoneActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -176,8 +193,8 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
                                         .addComponent(jLabel9)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(textSenha)
-                                    .addComponent(textCpf)))
+                                    .addComponent(textCpf)
+                                    .addComponent(textSenha)))
                             .addComponent(textSobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
@@ -234,14 +251,14 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -284,9 +301,9 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
                 newFuncionario.setNome(textNome.getText());
                 newFuncionario.setSobrenome(textSobrenome.getText());
                 newFuncionario.setRg(textRg.getText());
-                newFuncionario.setCpf(textCpf.getText());
+                newFuncionario.setCpf(textCpf.getText().replace(".","").replace("-", ""));
                 newFuncionario.setTelefone(textTelefone.getText());
-                newFuncionario.setSenha(textSenha.getText());
+                newFuncionario.setSenha(String.valueOf(textSenha.getPassword()));
                 newFuncionario.setCargo((Cargo) jComboBox1.getSelectedItem());
                 newFuncionario.getCargo().setNivel((int) jComboBox3.getSelectedItem());
                 newFuncionario.setDepartamento((Departamento) jComboBox2.getSelectedItem());
@@ -294,6 +311,7 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "O funcionario foi Cadastrado com sucesso!");
                 this.dispose();
                 ManterFuncionarios tela = new ManterFuncionarios();
+                tela.setVisible(true);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Não foi possivel Adicionar o Funcionario /n"+ ex.getMessage());
@@ -319,6 +337,10 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void textTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textTelefoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textTelefoneActionPerformed
     private boolean validation() {
         return true;
     }
@@ -377,11 +399,11 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel mainLabel;
-    private javax.swing.JTextField textCpf;
+    private javax.swing.JFormattedTextField textCpf;
     private javax.swing.JTextField textNome;
     private javax.swing.JTextField textRg;
-    private javax.swing.JTextField textSenha;
+    private javax.swing.JPasswordField textSenha;
     private javax.swing.JTextField textSobrenome;
-    private javax.swing.JTextField textTelefone;
+    private javax.swing.JFormattedTextField textTelefone;
     // End of variables declaration//GEN-END:variables
 }
