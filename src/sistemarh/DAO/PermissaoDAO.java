@@ -20,6 +20,39 @@ import sistemarh.utils.ConnectionFactory;
  */
 public class PermissaoDAO {
     private static String givePermission = "INSERT INTO temacesso (idFuncionario, idSistema) VALUES (?,?)";
+    private static final String delete = "DELETE FROM temacesso WHERE idfuncionario = ? and idsistema = ?";
+    
+    public static void delete(Sistema sistema, Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(delete, PreparedStatement.RETURN_GENERATED_KEYS);
+            statment.setInt(1, funcionario.getId());
+            statment.setInt(2, sistema.getId());
+            statment.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao excluir um departamento no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
     
     public static boolean darPermissao(Funcionario f, Sistema s) {
         Connection con = null;

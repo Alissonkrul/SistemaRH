@@ -12,6 +12,7 @@ import sistemarh.DAO.PermissaoDAO;
 import sistemarh.DAO.SistemaDAO;
 import sistemarh.entidades.Funcionario;
 import sistemarh.entidades.Sistema;
+import sistemarh.utils.TableEditarSistema;
 
 /**
  *
@@ -20,6 +21,8 @@ import sistemarh.entidades.Sistema;
 public class AdicionarPermissao extends javax.swing.JFrame {
 
     private Funcionario funcionario;
+    private List<Sistema> sistemas = new ArrayList();
+    private List<Sistema> sistemasFunc = new ArrayList();
 
     /**
      * Creates new form AdicionarPermissao
@@ -27,15 +30,45 @@ public class AdicionarPermissao extends javax.swing.JFrame {
     public AdicionarPermissao(Funcionario f) {
         initComponents();
         funcionario = f;
-        combo.removeAllItems();
-        List<Sistema> sistemas = new ArrayList();
+
+        sistemasFunc = SistemaDAO.carregarSistemas(f);
         sistemas = SistemaDAO.carregarSistemas();
+        List<String> s = new ArrayList();
+        for (Sistema sistema : sistemas) {
+            for (Sistema sistema1 : sistemasFunc) {
+                if (sistema.getNome().equals(sistema1.getNome())) {
+                    s.add(sistema.getNome());
+                }
+            }
+        }
+        boolean aux = true;
+//        for(int i = 0; i<s.size();i++) {
+//            for(Sistema sistema : sistemas) {
+//                System.out.println("hey");
+//                if(sistema.getNome().equals(s.get(i))) {
+//                    sistemas.remove(sistema);
+//                    System.out.println("ho");
+//                }
+//            }
+//        }
+//        while(aux) {
+//            aux = false;
+//            for(String str : s) {
+//                for(Sistema sistema : sistemas) {
+//                    if(str.equals(sistema.getNome())){
+//                        sistemas.remove(sistema);
+//                        aux = true;
+//                    }
+//                }
+//            }
+//        }
+
+        ((TableEditarSistema) TabelaSistemas.getModel()).refreshTable();
+        ((TableEditarSistema) TabelaSistemasFunc.getModel()).refreshTable(f);
+
         nome.setText(f.getNome());
         cpf.setText(f.getCpf());
         rg.setText(f.getRg());
-        for (Sistema sistema : sistemas) {
-            combo.addItem(sistema);
-        }
     }
 
     private AdicionarPermissao() {
@@ -52,31 +85,28 @@ public class AdicionarPermissao extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         nome = new javax.swing.JLabel();
-        combo = new javax.swing.JComboBox();
-        adicionar = new javax.swing.JButton();
         voltar = new javax.swing.JButton();
         cpf = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         rg = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TabelaSistemas = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TabelaSistemasFunc = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setText("Adicionar Permissão");
+        jLabel1.setText("Editar Permissão");
 
         nome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         nome.setText("jLabel2");
-
-        combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        adicionar.setText("Adicionar");
-        adicionar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                adicionarActionPerformed(evt);
-            }
-        });
 
         voltar.setText("Voltar");
         voltar.addActionListener(new java.awt.event.ActionListener() {
@@ -96,6 +126,30 @@ public class AdicionarPermissao extends javax.swing.JFrame {
 
         rg.setText("jLabel5");
 
+        TabelaSistemas.setModel(new TableEditarSistema());
+        jScrollPane1.setViewportView(TabelaSistemas);
+
+        TabelaSistemasFunc.setModel(new TableEditarSistema());
+        jScrollPane2.setViewportView(TabelaSistemasFunc);
+
+        jButton1.setText(">>");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("<<");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Sistemas:");
+
+        jLabel6.setText("Tem acesso:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,77 +167,103 @@ public class AdicionarPermissao extends javax.swing.JFrame {
                         .addComponent(jLabel4)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nome)
+                    .addComponent(rg)
+                    .addComponent(cpf))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(282, 282, 282)
+                        .addComponent(voltar)
+                        .addGap(148, 148, 148))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(jLabel1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(nome)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(adicionar)
-                                        .addGap(30, 30, 30)
-                                        .addComponent(voltar))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(57, 57, 57)))))
-                        .addContainerGap(22, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rg)
-                            .addComponent(cpf))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton2)
+                                    .addComponent(jButton1))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(95, 95, 95)
+                                .addComponent(jLabel6)))
+                        .addGap(41, 41, 41))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nome)
-                    .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cpf)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(rg))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(adicionar)
-                    .addComponent(voltar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(nome)
+                                    .addComponent(jLabel2))
+                                .addGap(19, 19, 19)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cpf)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(rg)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(7, 7, 7)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(34, 34, 34)
+                            .addComponent(jButton1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButton2))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(voltar)
                 .addGap(22, 22, 22))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
-        Sistema sistema = (Sistema) combo.getSelectedItem();
-        if (PermissaoDAO.darPermissao(funcionario, sistema)) {
-            JOptionPane.showMessageDialog(null, "Permissão adicionada!");
-            EditarPermissoes editarPermissoes = new EditarPermissoes();
-            editarPermissoes.setVisible(true);
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Falha em adicionar permissão!");
-            EditarPermissoes editarPermissoes = new EditarPermissoes();
-            editarPermissoes.setVisible(true);
-            this.dispose();
-        }
-    }//GEN-LAST:event_adicionarActionPerformed
-
     private void voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarActionPerformed
         EditarPermissoes editarPermissoes = new EditarPermissoes();
         editarPermissoes.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_voltarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int[] linhas = TabelaSistemas.getSelectedRows();
+        for (int i = 0; i < linhas.length; i++) {
+            PermissaoDAO.darPermissao(funcionario, sistemas.get(linhas[i]));
+        }
+        List<Sistema> sists = ((TableEditarSistema) TabelaSistemas.getModel()).remove(linhas, sistemas);
+        ((TableEditarSistema) TabelaSistemasFunc.getModel()).addToList(sists);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int[] linhas = TabelaSistemasFunc.getSelectedRows();
+        for (int i = 0; i < linhas.length; i++) {
+            PermissaoDAO.delete(sistemas.get(linhas[i]), funcionario);
+        }
+        List<Sistema> sists = ((TableEditarSistema) TabelaSistemasFunc.getModel()).remove(linhas, sistemasFunc);
+        ((TableEditarSistema) TabelaSistemas.getModel()).addToList(sists);
+        ((TableEditarSistema) TabelaSistemasFunc.getModel()).refreshTable(funcionario);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,19 +301,25 @@ public class AdicionarPermissao extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton adicionar;
-    private javax.swing.JComboBox combo;
+    private javax.swing.JTable TabelaSistemas;
+    private javax.swing.JTable TabelaSistemasFunc;
     private javax.swing.JLabel cpf;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nome;
     private javax.swing.JLabel rg;
     private javax.swing.JButton voltar;
     // End of variables declaration//GEN-END:variables
 
     private void ArrayList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body TabelaSistemasrated methods, choose Tools | Templates.
     }
 }
