@@ -148,7 +148,6 @@ public class TelaLogin extends javax.swing.JFrame {
         funcionario.setCpf(cpf1);
         String senha1 = String.valueOf(senha.getPassword());
         funcionario.setSenha(senha1);
-        System.out.println(cpf1);
         funcionario = FuncionarioDAO.procurarLogin(funcionario);
         try {
             if (Validação.validarCpf(cpf1)) {

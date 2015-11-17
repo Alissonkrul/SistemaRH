@@ -5,11 +5,23 @@
  */
 package sistemarh.utils;
 
+import java.util.List;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Bruno Henrique
  */
 public class Validação {
+    
+    public static boolean verificaCampos(List<JTextField> campos) {
+        for(JTextField campo:campos) {
+            if(campo.getText().equals("")){
+                return false;
+            }
+        }
+        return true;
+    }
     
     public static boolean validarCpf(String cpf) {
         if (cpf == null) {

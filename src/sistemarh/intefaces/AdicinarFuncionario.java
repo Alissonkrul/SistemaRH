@@ -5,7 +5,10 @@
  */
 package sistemarh.intefaces;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import sistemarh.DAO.CargoDAO;
 import sistemarh.DAO.DepartamentoDAO;
 import sistemarh.DAO.FuncionarioDAO;
@@ -297,24 +300,36 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        List<JTextField> campos = new ArrayList();
+        campos.add(textCpf);
+        campos.add(textNome);
+        campos.add(textSobrenome);
+        campos.add(textCpf);
+        campos.add(textTelefone);
         try {
-            if (Validação.validarCpf(textCpf.getText())) {
-                if (validation()) {
-                    newFuncionario.setNome(textNome.getText());
-                    newFuncionario.setSobrenome(textSobrenome.getText());
-                    newFuncionario.setRg(textRg.getText());
-                    newFuncionario.setCpf(textCpf.getText().replaceAll("[.|-]", ""));
-                    newFuncionario.setTelefone(textTelefone.getText());
-                    newFuncionario.setSenha(String.valueOf(textSenha.getPassword()));
-                    newFuncionario.setCargo((Cargo) jComboBox1.getSelectedItem());
-                    newFuncionario.getCargo().setNivel((int) jComboBox3.getSelectedItem());
-                    newFuncionario.setDepartamento((Departamento) jComboBox2.getSelectedItem());
-                    newFuncionario.add();
-                    JOptionPane.showMessageDialog(null, "O funcionario foi Cadastrado com sucesso!");
-                    this.dispose();
-                    ManterFuncionarios tela = new ManterFuncionarios();
-                    tela.setVisible(true);
+            if (Validação.verificaCampos(campos)) {
+                if (Validação.validarCpf(textCpf.getText())) {
+                    if (validation()) {
+                        newFuncionario.setNome(textNome.getText());
+                        newFuncionario.setSobrenome(textSobrenome.getText());
+                        newFuncionario.setRg(textRg.getText());
+                        newFuncionario.setCpf(textCpf.getText().replaceAll("[.|-]", ""));
+                        newFuncionario.setTelefone(textTelefone.getText());
+                        newFuncionario.setSenha(String.valueOf(textSenha.getPassword()));
+                        newFuncionario.setCargo((Cargo) jComboBox1.getSelectedItem());
+                        newFuncionario.getCargo().setNivel((int) jComboBox3.getSelectedItem());
+                        newFuncionario.setDepartamento((Departamento) jComboBox2.getSelectedItem());
+                        newFuncionario.add();
+                        JOptionPane.showMessageDialog(null, "O funcionario foi Cadastrado com sucesso!");
+                        this.dispose();
+                        ManterFuncionarios tela = new ManterFuncionarios();
+                        tela.setVisible(true);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "CPF inválido");
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Insira todos os campos");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Não foi possivel Adicionar o Funcionario /n" + ex.getMessage());
