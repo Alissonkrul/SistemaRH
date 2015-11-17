@@ -5,10 +5,13 @@
  */
 package sistemarh.intefaces;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import sistemarh.DAO.CargoDAO;
 import sistemarh.DAO.DepartamentoDAO;
 import sistemarh.DAO.FuncionarioDAO;
@@ -22,6 +25,9 @@ import sistemarh.utils.Validação;
  * @author Alisson
  */
 public class AdicinarFuncionario extends javax.swing.JFrame {
+
+    private static final Border ok = BorderFactory.createLineBorder(Color.GREEN, 1);
+    private static final Border nok = BorderFactory.createLineBorder(Color.RED, 1);
 
     /**
      * Creates new form AdicionarDepartamento
@@ -78,8 +84,8 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jComboBox3 = new javax.swing.JComboBox();
         textCpf = new javax.swing.JFormattedTextField();
-        textTelefone = new javax.swing.JFormattedTextField();
         textSenha = new javax.swing.JPasswordField();
+        textTelefone = new javax.swing.JTextField();
 
         mainLabel.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 36)); // NOI18N
         mainLabel.setText("Departamentos");
@@ -158,17 +164,6 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-
-        try {
-            textTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #########")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        textTelefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textTelefoneActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -261,8 +256,8 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -301,14 +296,16 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         List<JTextField> campos = new ArrayList();
-        campos.add(textCpf);
         campos.add(textNome);
         campos.add(textSobrenome);
+        campos.add(textRg);
         campos.add(textCpf);
         campos.add(textTelefone);
+
         try {
-            if (Validação.verificaCampos(campos)) {
+            if ((Validação.verificaCampos(campos)) && (Validação.verificaSenha(textSenha))) {
                 if (Validação.validarCpf(textCpf.getText())) {
+                    textCpf.setBorder(ok);
                     if (validation()) {
                         newFuncionario.setNome(textNome.getText());
                         newFuncionario.setSobrenome(textSobrenome.getText());
@@ -326,6 +323,7 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
                         tela.setVisible(true);
                     }
                 } else {
+                    textCpf.setBorder(nok);
                     JOptionPane.showMessageDialog(null, "CPF inválido");
                 }
             } else {
@@ -355,10 +353,6 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox3ActionPerformed
-
-    private void textTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textTelefoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textTelefoneActionPerformed
     private boolean validation() {
         return true;
     }
@@ -422,6 +416,6 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
     private javax.swing.JTextField textRg;
     private javax.swing.JPasswordField textSenha;
     private javax.swing.JTextField textSobrenome;
-    private javax.swing.JFormattedTextField textTelefone;
+    private javax.swing.JTextField textTelefone;
     // End of variables declaration//GEN-END:variables
 }
