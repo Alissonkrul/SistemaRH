@@ -26,5 +26,9 @@ public class AuxLimpeza extends Funcionario {
     public boolean autentica(String nomeSistema, String usuario, String senha) {
         return false;
     }
+    
+     public double calculaBonus(float salary) {
+        return getCargo().getSalario()*0.5f;
+    }
 
 }

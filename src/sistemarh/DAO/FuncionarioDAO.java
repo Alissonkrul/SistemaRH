@@ -31,6 +31,7 @@ import sistemarh.utils.ConnectionFactory;
 public class FuncionarioDAO {
 
     private static final String selectAll = "SELECT * FROM FUNCIONARIO";
+    private static final String selectFuncionariosDep = "SELECT * FROM FUNCIONARIO where iddepartamento = ?";
     private static final String select = "SELECT * FROM FUNCIONARIO WHERE idfuncionario = ?";
     private static final String add = "INSERT INTO funcionario ( telefone, cpf, nome, rg, senha, sobrenome, idcargo, nivel, iddepartamento) VALUES (?,?,?,?,?,?,?,?,?) ";
     private static final String addGerecia = "INSERT INTO gerencia ( idFuncionario, iddepartamento) VALUES (?,?) ";
@@ -38,22 +39,22 @@ public class FuncionarioDAO {
     private static final String update = "update funcionario SET Telefone = ? ,CPF = ?,Nome = ?,RG = ?,Senha = ?,Sobrenome = ?,idCargo = ?,Nivel = ?,idDepartamento = ? where idfuncionario = ?";
     private static final String procurarLogin = "SELECT * FROM funcionario WHERE cpf = ? and senha = ?";
     private static final String selectByCpf = "SELECT * FROM funcionario WHERE cpf LIKE ?";
-    
+
     public static List<Funcionario> carregaPorCpf(Funcionario funcionario) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
+
         try {
             con = ConnectionFactory.getConnection();
             ps = con.prepareStatement(selectByCpf);
-            funcionario.setCpf(funcionario.getCpf()+"%");
+            funcionario.setCpf(funcionario.getCpf() + "%");
             ps.setString(1, funcionario.getCpf());
-            
+
             rs = ps.executeQuery();
-            
+
             List<Funcionario> list = new ArrayList();
-            while(rs.next()) {
+            while (rs.next()) {
                 Funcionario funcionario2;
                 funcionario2 = especializaFuncionario(rs.getInt("idCargo"));
                 funcionario2.setId(rs.getInt("idFuncionario"));
@@ -71,7 +72,7 @@ public class FuncionarioDAO {
                 funcionario2.getCargo().carregar();
                 funcionario2.carregarSistemas();
                 funcionario2.carregarDepartamentos();
-                
+
                 list.add(funcionario2);
             }
             return list;
@@ -130,8 +131,8 @@ public class FuncionarioDAO {
                 funcionario2.getCargo().carregar();
                 funcionario2.carregarSistemas();
                 funcionario2.carregarDepartamentos();
-                
-                return funcionario2;                
+
+                return funcionario2;
             }
 
         } catch (SQLException ex) {
@@ -368,7 +369,7 @@ public class FuncionarioDAO {
     }
 
     public static void add(Gerente gerente) {
-        FuncionarioDAO.add((Funcionario)gerente);
+        FuncionarioDAO.add((Funcionario) gerente);
         Connection con = null;
         PreparedStatement statment = null;
         try {
@@ -400,7 +401,7 @@ public class FuncionarioDAO {
     }
 
     public static void add(Diretor diretor) {
-        FuncionarioDAO.add((Funcionario)diretor);
+        FuncionarioDAO.add((Funcionario) diretor);
         Connection con = null;
         PreparedStatement statment = null;
         try {
@@ -427,6 +428,44 @@ public class FuncionarioDAO {
 
             try {
                 con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+
+    public static int getTamanhoDepartamento(Gerente gerente) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        int cont = 0;
+        List<Funcionario> list = new ArrayList();
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(selectFuncionariosDep);
+            // Dados da tabela de funcionarios
+            statment.setInt(1, gerente.getDepartamentoGerenciado().getId());
+            resultSet = statment.executeQuery();
+            while (resultSet.next()) {
+                cont++;
+            }
+            return cont;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de Funcionarios. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
             } catch (Exception ex) {
                 System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
             };

@@ -133,4 +133,8 @@ public class Funcionario extends Pessoa implements Autenticavel {
      public void add() {
         FuncionarioDAO.add(this);
     }
+     public double calculaBonus()
+     {
+         return getCargo().getSalario();
+     }
 }

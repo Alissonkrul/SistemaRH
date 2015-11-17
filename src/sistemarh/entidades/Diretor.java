@@ -45,7 +45,11 @@ public class Diretor extends Funcionario {
         }
         return false;
     }
-    
+
+    public double calculaBonus() {
+        return (getCargo().getSalario() * 4) + (3000 * departamentosDirigidos.size());
+    }
+
     @Override
     public void add() {
         FuncionarioDAO.add(this);

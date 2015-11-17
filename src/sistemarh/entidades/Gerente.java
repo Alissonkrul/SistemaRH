@@ -38,7 +38,15 @@ public class Gerente extends Funcionario{
     public void setDepartamentoGerenciado(Departamento departamentoGerenciado) {
         this.departamentoGerenciado = departamentoGerenciado;
     }
-   
+    
+    public double calculaBonus() {
+        return getCargo().getSalario() * 2 + 100 * this.tamanhoDepartamento();
+    }
+
+    private int tamanhoDepartamento() {
+        return FuncionarioDAO.getTamanhoDepartamento(this);
+    }
+    
     @Override
      public void add() {
         FuncionarioDAO.add(this);
