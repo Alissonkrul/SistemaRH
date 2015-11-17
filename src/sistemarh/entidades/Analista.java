@@ -22,11 +22,7 @@ public class Analista extends Funcionario{
 
     public Analista() {
     }
-     
-    @Override
-    public boolean autentica(String nomeSistema, String usuario, String senha) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     public double calculaBonus( ) {
         return this.getCargo().getSalario();
     }
