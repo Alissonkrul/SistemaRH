@@ -29,6 +29,31 @@ public class TableFuncionarios extends AbstractTableModel {
         funcionarios = new ArrayList<>();
         refreshTable();
     }
+    
+    public void refreshCpf(Funcionario f) {
+        funcionarios = FuncionarioDAO.carregaPorCpf(f);
+        fireTableDataChanged();
+    }
+    
+    public void refreshRg(Funcionario f) {
+        funcionarios = FuncionarioDAO.carregaPorRg(f);
+        fireTableDataChanged();
+    }
+    
+    public void refreshCargo(Funcionario f) {
+        funcionarios = FuncionarioDAO.carregaPorCargo(f);
+        fireTableDataChanged();
+    }
+    
+    public void refreshNome(Funcionario f) {
+        funcionarios = FuncionarioDAO.carregaPorNome(f);
+        fireTableDataChanged();
+    }
+    
+    public void refreshSobrenome(Funcionario f) {
+        funcionarios = FuncionarioDAO.carregaPorSobrenome(f);
+        fireTableDataChanged();
+    }
 
     public void refreshTable() {
         funcionarios = FuncionarioDAO.carregarFuncionarios();

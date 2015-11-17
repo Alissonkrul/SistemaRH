@@ -5,9 +5,13 @@
  */
 package sistemarh.intefaces;
 
+import java.util.ArrayList;
+import java.util.List;
 import sistemarh.entidades.Cargo;
 import sistemarh.utils.ComboBoxDepartamento;
 import sistemarh.entidades.Departamento;
+import sistemarh.entidades.Funcionario;
+import sistemarh.utils.ComboItem;
 import sistemarh.utils.TableFuncionarios;
 
 /**
@@ -27,6 +31,19 @@ public class ManterFuncionarios extends javax.swing.JFrame {
      */
     public ManterFuncionarios() {
         initComponents();
+        cbBuscar.removeAllItems();
+        
+        List<ComboItem> combo = new ArrayList();
+        combo.add(new ComboItem("CPF",1));
+        combo.add(new ComboItem("RG",2));
+        combo.add(new ComboItem("Nome", 3));
+        combo.add(new ComboItem("Sobrenome", 4));
+        combo.add(new ComboItem("Cargo", 5));
+        
+        for(ComboItem op : combo) {
+            cbBuscar.addItem(op);
+        }
+        
     }
 
     public ManterFuncionarios(javax.swing.JFrame calledBy) {
@@ -51,7 +68,7 @@ public class ManterFuncionarios extends javax.swing.JFrame {
         btAdicionar = new javax.swing.JToggleButton();
         btVoltar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TabelaFuncionario = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema RH - Funcionarios");
@@ -73,6 +90,11 @@ public class ManterFuncionarios extends javax.swing.JFrame {
         });
 
         cbBuscar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbBuscarActionPerformed(evt);
+            }
+        });
 
         btAdicionar.setText("Adicionar");
         btAdicionar.addActionListener(new java.awt.event.ActionListener() {
@@ -88,13 +110,13 @@ public class ManterFuncionarios extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new TableFuncionarios());
-        jTable1.setDefaultEditor(Departamento.class, new sistemarh.utils.ComboBoxDepartamento());
-        jTable1.setDefaultEditor(Cargo.class, new sistemarh.utils.ComboBoxCargo());
-        jTable1.setDefaultEditor(String.class, new sistemarh.utils.ComboBoxNivel());
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
+        TabelaFuncionario.setModel(new TableFuncionarios());
+        TabelaFuncionario.setDefaultEditor(Departamento.class, new sistemarh.utils.ComboBoxDepartamento());
+        TabelaFuncionario.setDefaultEditor(Cargo.class, new sistemarh.utils.ComboBoxCargo());
+        TabelaFuncionario.setDefaultEditor(String.class, new sistemarh.utils.ComboBoxNivel());
+        jScrollPane1.setViewportView(TabelaFuncionario);
+        if (TabelaFuncionario.getColumnModel().getColumnCount() > 0) {
+            TabelaFuncionario.getColumnModel().getColumn(0).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -146,7 +168,38 @@ public class ManterFuncionarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
-        // TODO add your handling code here:
+        ComboItem c = (ComboItem) cbBuscar.getSelectedItem();
+        Funcionario f = new Funcionario();
+        
+        
+        switch(c.getKey()) {
+            case 1:
+                f.setCpf(tfBuscar.getText());
+                ((TableFuncionarios) TabelaFuncionario.getModel()).refreshCpf(f);
+                break;
+                
+            case 2:
+                f.setRg(tfBuscar.getText());
+                ((TableFuncionarios) TabelaFuncionario.getModel()).refreshRg(f);
+                break;
+                
+            case 3:
+                f.setNome(tfBuscar.getText());
+                ((TableFuncionarios) TabelaFuncionario.getModel()).refreshNome(f);
+                break;
+                
+            case 4:
+                f.setSobrenome(tfBuscar.getText());
+                ((TableFuncionarios) TabelaFuncionario.getModel()).refreshSobrenome(f);
+                break;
+                
+            case 5:
+                Cargo cargo = new Cargo();
+                cargo.setNome(tfBuscar.getText());
+                f.setCargo(cargo);
+                ((TableFuncionarios) TabelaFuncionario.getModel()).refreshCargo(f);
+                break;
+        }
     }//GEN-LAST:event_btBuscarActionPerformed
 
     private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
@@ -164,6 +217,10 @@ public class ManterFuncionarios extends javax.swing.JFrame {
     private void tfBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfBuscarActionPerformed
+
+    private void cbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,12 +259,12 @@ public class ManterFuncionarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TabelaFuncionario;
     private javax.swing.JToggleButton btAdicionar;
     private javax.swing.JButton btBuscar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JComboBox cbBuscar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel mainLabel;
     private javax.swing.JTextField tfBuscar;
     // End of variables declaration//GEN-END:variables
