@@ -5,6 +5,7 @@
  */
 package sistemarh.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
 import sistemarh.DAO.DepartamentoDAO;
 import sistemarh.DAO.FuncionarioDAO;
@@ -24,6 +25,7 @@ public class Diretor extends Funcionario {
     }
 
     public Diretor() {
+        departamentosDirigidos = new ArrayList();
     }
 
     public void carregarDepartamentos() {

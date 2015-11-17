@@ -23,7 +23,7 @@ public class TableFuncionarios extends AbstractTableModel {
 
     private List<Funcionario> funcionarios = new ArrayList();
 
-    private String[] colunas = {"Nome", "Sobrenome", "RG", "CPF", "Telefone", "Departamento", "Cargo", "Nível"};
+    private String[] colunas = {"Nome", "Sobrenome", "RG", "CPF", "Telefone", "Departamento", "Cargo", "Nível", "Salário"};
 
     public TableFuncionarios() {
         funcionarios = new ArrayList<>();
@@ -61,22 +61,23 @@ public class TableFuncionarios extends AbstractTableModel {
     public int getColumnCount() {
         return colunas.length;
     }
-     @Override
+
+    @Override
     public Class<?> getColumnClass(int col) {
-       switch (col) {
+        switch (col) {
             case 5:
                 return Departamento.class;
             case 6:
                 return Cargo.class;
             case 7:
                 return String.class;
-       }
+        }
         return super.getColumnClass(col);
     }
 
     @Override
     public boolean isCellEditable(int linha, int coluna) {
-        return true;
+        return coluna!=8;
     }
 
     @Override
@@ -98,6 +99,8 @@ public class TableFuncionarios extends AbstractTableModel {
                 return funcionarios.get(linha).getCargo();
             case 7:
                 return funcionarios.get(linha).getCargo().getNivel();
+            case 8:
+                return funcionarios.get(linha).getCargo().getSalario();
         }
         return null;
     }

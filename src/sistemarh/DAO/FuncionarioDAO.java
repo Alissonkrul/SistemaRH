@@ -22,6 +22,7 @@ import sistemarh.entidades.Diretor;
 import sistemarh.entidades.Funcionario;
 import sistemarh.entidades.Gerente;
 import sistemarh.entidades.Programador;
+import sistemarh.entidades.Sistema;
 import sistemarh.utils.ConnectionFactory;
 
 /**
@@ -39,7 +40,8 @@ public class FuncionarioDAO {
     private static final String update = "update funcionario SET Telefone = ? ,CPF = ?,Nome = ?,RG = ?,Senha = ?,Sobrenome = ?,idCargo = ?,Nivel = ?,idDepartamento = ? where idfuncionario = ?";
     private static final String procurarLogin = "SELECT * FROM funcionario WHERE cpf = ? and senha = ?";
     private static final String selectByCpf = "SELECT * FROM funcionario WHERE cpf LIKE ?";
-
+    private static final String addTemAcesso = "INSERT temacesso(idfuncionario,idsistema) values(?,?) ";
+    private static final String deleteFuncionarioDeSis = "DELETE FROM temAcesso WHERE idFuncionario = ?";
     public static List<Funcionario> carregaPorCpf(Funcionario funcionario) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -217,6 +219,8 @@ public class FuncionarioDAO {
             statment.setInt(8, funcionario.getCargo().getNivel());
             statment.setInt(9, funcionario.getDepartamento().getId());
             statment.executeUpdate();
+
+            uptateTemAcesso(funcionario);
 
         } catch (SQLException ex) {
             throw new RuntimeException(
@@ -466,6 +470,72 @@ public class FuncionarioDAO {
             };
             try {
                 con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+
+    private static void uptateTemAcesso(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            deleteSistemasFuncionario(funcionario);
+            for (Sistema sistema : funcionario.getSitemas()) {
+                statment = con.prepareStatement(addTemAcesso);
+                statment.setInt(1, funcionario.getId());
+                statment.setInt(2, sistema.getId());
+                statment.executeUpdate();
+                
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao atualizar uma associação de tem sistema no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+    }
+    
+    public static void deleteSistemasFuncionario(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(deleteFuncionarioDeSis);
+            statment.setInt(1, funcionario.getId());
+            statment.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao excluir uma associação temAcesso no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
             } catch (Exception ex) {
                 System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
             };

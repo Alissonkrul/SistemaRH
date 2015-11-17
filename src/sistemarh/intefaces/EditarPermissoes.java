@@ -40,6 +40,7 @@ public class EditarPermissoes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TabelaPermissoes = new javax.swing.JTable();
         editar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,7 +48,7 @@ public class EditarPermissoes extends javax.swing.JFrame {
         jLabel1.setText("CPF:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel2.setText("Busca funcionario");
+        jLabel2.setText("Editar Permissões");
 
         pesquisar.setText("Pesquisar");
         pesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -66,28 +67,37 @@ public class EditarPermissoes extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Voltar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                                .addComponent(pesquisar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(154, 154, 154)
-                                .addComponent(jLabel2)))
+                                .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addComponent(pesquisar)
                         .addGap(18, 18, 18)
-                        .addComponent(editar))
-                    .addComponent(jScrollPane1))
+                        .addComponent(editar)))
                 .addGap(25, 25, 25))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,8 +111,10 @@ public class EditarPermissoes extends javax.swing.JFrame {
                     .addComponent(pesquisar)
                     .addComponent(editar))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -115,16 +127,23 @@ public class EditarPermissoes extends javax.swing.JFrame {
     }//GEN-LAST:event_pesquisarActionPerformed
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-        Funcionario f;
+        Funcionario f = new Funcionario();
         try {
             f = ((TablePermissoes) TabelaPermissoes.getModel()).edit(TabelaPermissoes.getSelectedRows());
-            AdicionarPermissao adicionarPermissao = new AdicionarPermissao(f);
-            adicionarPermissao.setVisible(true);
-            this.dispose();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Selecione alguém para editar permissões!");
+            JOptionPane.showMessageDialog(null, "Selecione alguém para editar permissões!" + ex.getMessage());
         }
+        AssociarPermissoes adicionarPermissao = new AssociarPermissoes(f);
+        adicionarPermissao.setVisible(true);
+        this.dispose();
+
     }//GEN-LAST:event_editarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        MenuPrincipal telaMenu = new MenuPrincipal();
+        telaMenu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,6 +184,7 @@ public class EditarPermissoes extends javax.swing.JFrame {
     private javax.swing.JTable TabelaPermissoes;
     private javax.swing.JTextField cpf;
     private javax.swing.JButton editar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
