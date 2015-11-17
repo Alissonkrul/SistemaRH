@@ -27,7 +27,7 @@ public class AuxLimpeza extends Funcionario {
         return false;
     }
     
-     public double calculaBonus(float salary) {
+     public double calculaBonus() {
         return getCargo().getSalario()*0.5f;
     }
 

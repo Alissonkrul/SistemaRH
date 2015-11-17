@@ -23,6 +23,7 @@ public class Gerente extends Funcionario{
     }
 
     public Gerente() {
+        departamentoGerenciado = new Departamento();
     }
 
     public Departamento getDepartamentoGerenciado() {
