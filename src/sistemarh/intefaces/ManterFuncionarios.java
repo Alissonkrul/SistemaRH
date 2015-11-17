@@ -150,7 +150,9 @@ public class ManterFuncionarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btBuscarActionPerformed
 
     private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
-        // TODO add your handling code here:
+       AdicinarFuncionario tela = new AdicinarFuncionario();
+       tela.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btAdicionarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed

@@ -24,10 +24,10 @@ import sistemarh.utils.ConnectionFactory;
  */
 public class SistemaDAO {
 
-    private static final String insert = "INSERT INTO sistema(nome) VALUES(?)";
+    private static final String insert = "INSERT INTO sistema(nome) VALUES( )";
     private static final String selectAll = "SELECT * FROM sistema";
     private static final String selectFuncionario = "select s.idSistema,s.nome from sistema s,temacesso ta where ta.idsistema = s.idsistema and ta.idfuncionario =?";
-    private static final String deleteSisDeFuncionario = "DELETE FROM sistema WHERE idSistema = ?";
+    private static final String deleteSisDeFuncionario = "DELETE FROM temAcesso WHERE idSistema = ?";
     private static final String delete = "DELETE FROM sistema WHERE idSistema = ?";
     private static final String update = "UPDATE sistema SET nome=? WHERE idSistema = ?";
     private static final String select = "SELECT * FROM sistema WHERE idsistema = ?";
