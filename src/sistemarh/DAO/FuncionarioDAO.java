@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import sistemarh.entidades.Analista;
 import sistemarh.entidades.AuxLimpeza;
 import sistemarh.entidades.Cargo;
@@ -39,6 +38,202 @@ public class FuncionarioDAO {
     private static final String update = "update funcionario SET Telefone = ? ,CPF = ?,Nome = ?,RG = ?,Senha = ?,Sobrenome = ?,idCargo = ?,Nivel = ?,idDepartamento = ? where idfuncionario = ?";
     private static final String procurarLogin = "SELECT * FROM funcionario WHERE cpf = ? and senha = ?";
     private static final String selectByCpf = "SELECT * FROM funcionario WHERE cpf LIKE ?";
+    private static final String selectByRg = "SELECT * FROM funcionario WHERE rg LIKE ?";
+    private static final String selectByName = "SELECT * FROM funcionario WHERE nome LIKE ?";
+    private static final String selectByLastName = "SELECT * FROM funcionario WHERE sobrenome LIKE ?";
+    private static final String selectByCargo = "SELECT * FROM funcionario WHERE idcargo = ?";
+    
+    public static List<Funcionario> carregaPorCargo(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = ConnectionFactory.getConnection();
+            ps = con.prepareStatement(selectByCargo);
+            
+            String selectCargo = "SELECT idcargo FROM cargo WHERE nome LIKE ?";
+            Cargo cargo = funcionario.getCargo();
+            cargo.setNome(cargo.getNome() + "%");
+            
+            PreparedStatement ps1 = con.prepareStatement(selectCargo);
+            ps1.setString(1, cargo.getNome());
+            ResultSet rs1 = ps1.executeQuery();
+            
+            while(rs1.next()){
+                cargo.setId(rs1.getInt("idCargo"));
+            }
+            
+            ps.setInt(1, cargo.getId());
+
+            rs = ps.executeQuery();
+
+            List<Funcionario> list = new ArrayList();
+            while (rs.next()) {
+                Funcionario funcionario2;
+                funcionario2 = especializaFuncionario(rs.getInt("idCargo"));
+                funcionario2.setId(rs.getInt("idFuncionario"));
+                funcionario2.setTelefone(rs.getString("telefone"));
+                funcionario2.setCpf(rs.getString("cpf"));
+                funcionario2.setNome(rs.getString("nome"));
+                funcionario2.setRg(rs.getString("RG"));
+                funcionario2.setSenha(rs.getString("senha"));
+                funcionario2.setSobrenome(rs.getString("sobrenome"));
+                funcionario2.getCargo().setId(rs.getInt("idcargo"));
+                funcionario2.getCargo().setNivel(rs.getInt("nivel"));
+                funcionario2.getDepartamento().setId(rs.getInt("idDepartamento"));
+
+                funcionario2.getDepartamento().carregar();
+                funcionario2.getCargo().carregar();
+                funcionario2.carregarSistemas();
+                funcionario2.carregarDepartamentos();
+
+                list.add(funcionario2);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+        return null;
+    }
+    
+    public static List<Funcionario> carregaPorSobrenome(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = ConnectionFactory.getConnection();
+            ps = con.prepareStatement(selectByLastName);
+            funcionario.setSobrenome(funcionario.getSobrenome() + "%");
+            ps.setString(1, funcionario.getSobrenome());
+
+            rs = ps.executeQuery();
+
+            List<Funcionario> list = new ArrayList();
+            while (rs.next()) {
+                Funcionario funcionario2;
+                funcionario2 = especializaFuncionario(rs.getInt("idCargo"));
+                funcionario2.setId(rs.getInt("idFuncionario"));
+                funcionario2.setTelefone(rs.getString("telefone"));
+                funcionario2.setCpf(rs.getString("cpf"));
+                funcionario2.setNome(rs.getString("nome"));
+                funcionario2.setRg(rs.getString("RG"));
+                funcionario2.setSenha(rs.getString("senha"));
+                funcionario2.setSobrenome(rs.getString("sobrenome"));
+                funcionario2.getCargo().setId(rs.getInt("idcargo"));
+                funcionario2.getCargo().setNivel(rs.getInt("nivel"));
+                funcionario2.getDepartamento().setId(rs.getInt("idDepartamento"));
+
+                funcionario2.getDepartamento().carregar();
+                funcionario2.getCargo().carregar();
+                funcionario2.carregarSistemas();
+                funcionario2.carregarDepartamentos();
+
+                list.add(funcionario2);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+        return null;
+    }
+    
+    public static List<Funcionario> carregaPorNome(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = ConnectionFactory.getConnection();
+            ps = con.prepareStatement(selectByName);
+            funcionario.setNome(funcionario.getNome() + "%");
+            ps.setString(1, funcionario.getNome());
+
+            rs = ps.executeQuery();
+
+            List<Funcionario> list = new ArrayList();
+            while (rs.next()) {
+                Funcionario funcionario2;
+                funcionario2 = especializaFuncionario(rs.getInt("idCargo"));
+                funcionario2.setId(rs.getInt("idFuncionario"));
+                funcionario2.setTelefone(rs.getString("telefone"));
+                funcionario2.setCpf(rs.getString("cpf"));
+                funcionario2.setNome(rs.getString("nome"));
+                funcionario2.setRg(rs.getString("RG"));
+                funcionario2.setSenha(rs.getString("senha"));
+                funcionario2.setSobrenome(rs.getString("sobrenome"));
+                funcionario2.getCargo().setId(rs.getInt("idcargo"));
+                funcionario2.getCargo().setNivel(rs.getInt("nivel"));
+                funcionario2.getDepartamento().setId(rs.getInt("idDepartamento"));
+
+                funcionario2.getDepartamento().carregar();
+                funcionario2.getCargo().carregar();
+                funcionario2.carregarSistemas();
+                funcionario2.carregarDepartamentos();
+
+                list.add(funcionario2);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+        return null;
+    }
 
     public static List<Funcionario> carregaPorCpf(Funcionario funcionario) {
         Connection con = null;
@@ -50,6 +245,66 @@ public class FuncionarioDAO {
             ps = con.prepareStatement(selectByCpf);
             funcionario.setCpf(funcionario.getCpf() + "%");
             ps.setString(1, funcionario.getCpf());
+
+            rs = ps.executeQuery();
+
+            List<Funcionario> list = new ArrayList();
+            while (rs.next()) {
+                Funcionario funcionario2;
+                funcionario2 = especializaFuncionario(rs.getInt("idCargo"));
+                funcionario2.setId(rs.getInt("idFuncionario"));
+                funcionario2.setTelefone(rs.getString("telefone"));
+                funcionario2.setCpf(rs.getString("cpf"));
+                funcionario2.setNome(rs.getString("nome"));
+                funcionario2.setRg(rs.getString("RG"));
+                funcionario2.setSenha(rs.getString("senha"));
+                funcionario2.setSobrenome(rs.getString("sobrenome"));
+                funcionario2.getCargo().setId(rs.getInt("idcargo"));
+                funcionario2.getCargo().setNivel(rs.getInt("nivel"));
+                funcionario2.getDepartamento().setId(rs.getInt("idDepartamento"));
+
+                funcionario2.getDepartamento().carregar();
+                funcionario2.getCargo().carregar();
+                funcionario2.carregarSistemas();
+                funcionario2.carregarDepartamentos();
+
+                list.add(funcionario2);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+
+            try {
+                ps.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+        return null;
+    }
+    
+    public static List<Funcionario> carregaPorRg(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = ConnectionFactory.getConnection();
+            ps = con.prepareStatement(selectByRg);
+            funcionario.setRg(funcionario.getRg() + "%");
+            ps.setString(1, funcionario.getRg());
 
             rs = ps.executeQuery();
 
