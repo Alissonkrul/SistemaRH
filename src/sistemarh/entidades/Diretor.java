@@ -54,6 +54,14 @@ public class Diretor extends Funcionario {
 
     @Override
     public void add() {
-        FuncionarioDAO.add(this);
+        FuncionarioDAO.addDir(this);
+    }
+    @Override
+    public void update() {
+        FuncionarioDAO.updateDir(this);
+    }
+    
+    public void delete() {
+        FuncionarioDAO.deleteDir(this); //To change body of generated methods, choose Tools | Templates.
     }
 }

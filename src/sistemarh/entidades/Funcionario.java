@@ -122,12 +122,11 @@ public class Funcionario extends Pessoa implements Autenticavel {
     }
 
     public void delete() {
-        throw new UnsupportedOperationException("Not supported yet. Delete func"); //To change body of generated methods, choose Tools | Templates.
+        FuncionarioDAO.delete(this); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void update() {
         FuncionarioDAO.update(this);
-       
     }
 
      public void add() {

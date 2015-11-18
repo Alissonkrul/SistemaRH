@@ -38,6 +38,10 @@ public class TableDepartamentosDirige extends AbstractTableModel {
     public List<Departamento> getDepartamentos() {
         return departamentos;
     }
+    
+    public void setDepartamentos(List<Departamento> listDep) {
+         departamentos = listDep;
+    }
 
     public List<Departamento> remove(int rows[]) {
         List<Departamento> deps = new ArrayList();
