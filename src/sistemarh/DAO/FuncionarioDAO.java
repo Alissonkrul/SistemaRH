@@ -41,12 +41,86 @@ public class FuncionarioDAO {
     private static final String selectByCpf = "SELECT * FROM funcionario WHERE cpf LIKE ?";
     private static final String addTemAcesso = "INSERT temacesso(idfuncionario,idsistema) values(?,?) ";
     private static final String deleteFuncionarioDeSis = "DELETE FROM temAcesso WHERE idFuncionario = ?";
-
+    private static final String deleteFuncionarioDeGer = "DELETE FROM gerencia WHERE idFuncionario = ?";
+    private static final String deleteFuncionarioDeDir = "DELETE FROM dirige WHERE idFuncionario = ?";
+    private static final String deleteSisDeFuncionario = "DELETE FROM temAcesso WHERE idFuncionario = ?";
     private static final String selectByRg = "SELECT * FROM funcionario WHERE rg LIKE ?";
     private static final String selectByName = "SELECT * FROM funcionario WHERE nome LIKE ?";
     private static final String selectByLastName = "SELECT * FROM funcionario WHERE sobrenome LIKE ?";
     private static final String selectByCargo = "SELECT * FROM funcionario WHERE idcargo = ?";
- 
+    private static final String delete = "DELETE FROM funcionario WHERE idFuncionario = ?";
+    
+    
+    public static void delete(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        deleteSisDeFuncionario(funcionario);
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(delete);
+            statment.setInt(1, funcionario.getId());
+            statment.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao excluir um funcionario no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+    public static void deleteSisDeFuncionario(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(deleteSisDeFuncionario);
+            statment.setInt(1, funcionario.getId());
+            statment.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao excluir uma associação de Sistema com funcionario no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+    
+     public static void deleteDir(Diretor diretor) {
+        deleteDirigeFuncionario((Funcionario)diretor);
+        delete((Funcionario)diretor);
+     }     
+     public static void deleteGer(Gerente gerente) {
+        deleteGerenciaFuncionario((Funcionario)gerente);
+        delete((Funcionario)gerente);
+     }  
     
     
     public static List<Funcionario> carregaPorCargo(Funcionario funcionario) {
@@ -631,7 +705,7 @@ public class FuncionarioDAO {
         return resultado.getInt(1);
     }
 
-    public static void add(Gerente gerente) {
+    public static void addGer(Gerente gerente) {
         FuncionarioDAO.add((Funcionario) gerente);
         Connection con = null;
         PreparedStatement statment = null;
@@ -663,12 +737,80 @@ public class FuncionarioDAO {
 
     }
 
-    public static void add(Diretor diretor) {
+    public static void addDir(Diretor diretor) {
         FuncionarioDAO.add((Funcionario) diretor);
         Connection con = null;
         PreparedStatement statment = null;
         try {
             con = ConnectionFactory.getConnection();
+            for (Departamento dep : diretor.getDepartamentosDirigidos()) {
+                statment = con.prepareStatement(addDirige);
+                statment.setInt(1, diretor.getId());
+                statment.setInt(2, dep.getId());
+                statment.executeUpdate();
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao inserir uma Associação de Gerente no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+    public static void updateGer(Gerente gerente) {
+        FuncionarioDAO.update((Funcionario) gerente);
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            deleteGerenciaFuncionario((Funcionario)gerente);
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(addGerecia);
+            statment.setInt(1, gerente.getId());
+            statment.setInt(2, gerente.getDepartamentoGerenciado().getId());
+            statment.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao inserir uma Associação de Gerente no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+
+    public static void updateDir(Diretor diretor) {
+        FuncionarioDAO.update((Funcionario) diretor);
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            deleteDirigeFuncionario((Funcionario)diretor);
             for (Departamento dep : diretor.getDepartamentosDirigidos()) {
                 statment = con.prepareStatement(addDirige);
                 statment.setInt(1, diretor.getId());
@@ -777,6 +919,66 @@ public class FuncionarioDAO {
         try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(deleteFuncionarioDeSis);
+            statment.setInt(1, funcionario.getId());
+            statment.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao excluir uma associação temAcesso no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+     public static void deleteDirigeFuncionario(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(deleteFuncionarioDeDir);
+            statment.setInt(1, funcionario.getId());
+            statment.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao excluir uma associação temAcesso no banco de dados. =" + ex.getMessage()
+            );
+
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+      public static void deleteGerenciaFuncionario(Funcionario funcionario) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(deleteFuncionarioDeGer);
             statment.setInt(1, funcionario.getId());
             statment.executeUpdate();
 

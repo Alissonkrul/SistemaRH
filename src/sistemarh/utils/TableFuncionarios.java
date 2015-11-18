@@ -180,4 +180,9 @@ public class TableFuncionarios extends AbstractTableModel {
         this.refreshTable();
     }
 
+    public Funcionario getValueAt(int linha) {
+        
+        return funcionarios.get(linha);
+    }
+
 }

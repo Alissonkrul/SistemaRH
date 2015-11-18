@@ -50,7 +50,15 @@ public class Gerente extends Funcionario{
     
     @Override
      public void add() {
-        FuncionarioDAO.add(this);
+        FuncionarioDAO.addGer(this);
+    }
+     
+     @Override
+    public void update() {
+        FuncionarioDAO.updateGer(this);
+    }
+     public void delete() {
+        FuncionarioDAO.deleteGer(this); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
