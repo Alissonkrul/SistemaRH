@@ -23,13 +23,13 @@ import sistemarh.utils.ConnectionFactory;
  */
 public class LoginDAO {
     
-    private static String sistema = "select idsistema from temacesso where idfuncionario = ?";
+    private static String getSistema = "select idsistema from temacesso where idfuncionario = ?";
     
     public static List<Sistema> sistemaPorFuncionario(Funcionario funcionario){
         List<Sistema> list = new ArrayList();
         try {
             Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement ps = connection.prepareStatement(sistema);
+            PreparedStatement ps = connection.prepareStatement(getSistema);
             
             ps.setInt(1, funcionario.getId());
             

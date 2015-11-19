@@ -35,7 +35,7 @@ public class DepartamentoDAO {
     private static final String update = "UPDATE departamento SET nome=? WHERE idDepartamento = ?";
     private static final String funcionario = "SELECT * FROM funcionario WHERE idDepartamento = ?";
     
-    public static boolean funcionario(Departamento departamento) {
+    public static boolean funcionarioEmDepartamento(Departamento departamento) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;

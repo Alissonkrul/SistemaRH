@@ -139,7 +139,7 @@ public class AdicionarSistema extends javax.swing.JFrame {
         this.dispose();
         }catch(Exception ex)
         {
-            JOptionPane.showMessageDialog(null, "Não foi possivel realizar o cadastro");  
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar o cadastro "+ex.getMessage());  
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

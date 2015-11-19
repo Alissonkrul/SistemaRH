@@ -19,7 +19,7 @@ import sistemarh.utils.ConnectionFactory;
  * @author Bruno Henrique
  */
 public class PermissaoDAO {
-    private static String givePermission = "INSERT INTO temacesso (idFuncionario, idSistema) VALUES (?,?)";
+    private static String insertPermissao = "INSERT INTO temacesso (idFuncionario, idSistema) VALUES (?,?)";
     
     public static boolean darPermissao(Funcionario f, Sistema s) {
         Connection con = null;
@@ -27,7 +27,7 @@ public class PermissaoDAO {
         
         try {
             con = ConnectionFactory.getConnection();
-            ps = con.prepareStatement(givePermission);
+            ps = con.prepareStatement(insertPermissao);
             ps.setInt(1, f.getId());
             ps.setInt(2, s.getId());
             

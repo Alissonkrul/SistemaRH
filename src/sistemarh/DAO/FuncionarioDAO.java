@@ -194,7 +194,7 @@ public class FuncionarioDAO {
         }
         return null;
     }
-    
+        
     public static List<Funcionario> carregaPorSobrenome(Funcionario funcionario) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -781,7 +781,8 @@ public class FuncionarioDAO {
             statment = con.prepareStatement(addGerecia);
             statment.setInt(1, gerente.getId());
             statment.setInt(2, gerente.getDepartamentoGerenciado().getId());
-            statment.executeUpdate();
+            if(gerente.getDepartamentoGerenciado().getId()!=0)
+                statment.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException(
                     "Erro ao inserir uma Associação de Gerente no banco de dados. =" + ex.getMessage()
@@ -888,10 +889,8 @@ public class FuncionarioDAO {
                 statment = con.prepareStatement(addTemAcesso);
                 statment.setInt(1, funcionario.getId());
                 statment.setInt(2, sistema.getId());
-                statment.executeUpdate();
-                
+                statment.executeUpdate();       
             }
-
         } catch (SQLException ex) {
             throw new RuntimeException(
                     "Erro ao atualizar uma associação de tem sistema no banco de dados. =" + ex.getMessage()

@@ -154,7 +154,7 @@ public class ManterDepartamentos extends javax.swing.JFrame {
             if (confirm == 0) {
                 int linha = tabelaDepartamentos.getSelectedRow();
                 Departamento dep = ((TableDepartamentos) tabelaDepartamentos.getModel()).getDepartamento(linha);
-                if (!DepartamentoDAO.funcionario(dep)) {
+                if (!DepartamentoDAO.funcionarioEmDepartamento(dep)) {
                     ((TableDepartamentos) tabelaDepartamentos.getModel()).delete(tabelaDepartamentos.getSelectedRows());
                     JOptionPane.showMessageDialog(null, "Departamento(s) removidos!");
                 } else {

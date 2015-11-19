@@ -184,5 +184,38 @@ public class TableFuncionarios extends AbstractTableModel {
         
         return funcionarios.get(linha);
     }
+   
+    public void ordenaTabela(int filtro){
+        switch (filtro) {
+            case 0:
+                Collections.sort(funcionarios, new Comparator<Funcionario>() {
+                    @Override
+                    public int compare(Funcionario arg0, Funcionario arg1) {
+                        return arg0.getNome().compareToIgnoreCase(arg1.getNome());
+                    }
+                });
+                break;
+            case 1:
+                Collections.sort(funcionarios, new Comparator<Funcionario>() {
+                    @Override
+                    public int compare(Funcionario arg0, Funcionario arg1) {
+                        return arg0.getSobrenome().compareToIgnoreCase(arg1.getSobrenome());
+                    }
+                });
+                break;
+            case 2:
+                Collections.sort(funcionarios, new Comparator<Funcionario>() {
+                    @Override
+                    public int compare(Funcionario arg0, Funcionario arg1) {
+                        String salary0 = ""+ arg0.getCargo().getSalario();
+                        String salary1 = ""+ arg1.getCargo().getSalario();
+                        
+                        return salary1.compareToIgnoreCase(salary0);                        
+                    }
+                });
+                break;
+        }
+        fireTableDataChanged();
+    }
 
 }
