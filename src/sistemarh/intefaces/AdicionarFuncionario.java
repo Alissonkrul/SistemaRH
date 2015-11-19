@@ -94,6 +94,7 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
         mainLabel.setText("Departamentos");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         GerirDepartamentos.setText("Associar Departamento(s)");
         GerirDepartamentos.addActionListener(new java.awt.event.ActionListener() {

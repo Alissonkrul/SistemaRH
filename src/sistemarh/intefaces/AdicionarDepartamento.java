@@ -44,6 +44,7 @@ public class AdicionarDepartamento extends javax.swing.JFrame {
         mainLabel.setText("Departamentos");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jButton1.setText("Salvar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
