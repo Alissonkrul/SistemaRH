@@ -25,7 +25,7 @@ import sistemarh.utils.Validação;
  *
  * @author Alisson
  */
-public class AdicinarFuncionario extends javax.swing.JFrame {
+public class AdicionarFuncionario extends javax.swing.JFrame {
 
     private static final Border ok = BorderFactory.createLineBorder(Color.GREEN, 1);
     private static final Border nok = BorderFactory.createLineBorder(Color.RED, 1);
@@ -33,7 +33,7 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
     /**
      * Creates new form AdicionarDepartamento
      */
-    public AdicinarFuncionario() {
+    public AdicionarFuncionario() {
         initComponents();
         for (Cargo cargo : CargoDAO.carregarCargos()) {
             jComboBox1.addItem(cargo);
@@ -283,9 +283,9 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(GerirDepartamentos))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3)
+                    .addComponent(jButton2))
                 .addGap(16, 16, 16))
         );
 
@@ -392,21 +392,23 @@ public class AdicinarFuncionario extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdicinarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdicinarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdicinarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdicinarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdicinarFuncionario().setVisible(true);
+                new AdicionarFuncionario().setVisible(true);
             }
         });
     }
